@@ -1,2 +1,15 @@
 JBChess
 =======
+/* Put your css in here */
+.square{
+  background-color:orange;
+  height:35px;
+  width:35px;
+  display:inline-block;
+  margin:2px;
+  font-size:10px;
+}
+
+.black{
+  background-color:gray;
+}
