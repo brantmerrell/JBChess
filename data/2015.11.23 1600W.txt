@@ -1,0 +1,6 @@
+[Site "Chess.com"]
+[Date "2015.11.23"]
+[White "Player"]
+[Black "Computer - Hard"]
+[Result "0-1"]
+ 1. e3 d5 2. Qf3 e5 3. Nc3 Nf6 4. b3 Nc6 5. Bb5 Qd6 6. Nge2 Bd7 7. O-O Qe6 8. Bb2 Nb4 9. Rfc1 c6 10. a3 cxb5 11. axb4 Bxb4 12. Ba3 Bxa3 13. Rxa3 b4 14. Ra5 bxc3 15. Nxc3 e4 16. Qg3 O-O 17. Rca1 a6 18. Qc7 Ra7 19. Qc5 b6 20. Qd4 Rc8 21. Rxa6 Rxa6 22. Rxa6 Rb8 23. h3 h6 24. Qb4 Kh7 25. Kf1 Kg6 26. Ke2 Kf5 27. d3 Qc6 28. Kd2 Qb7 29. Ra1 Rc8 30. g4+ Kg6 31. Ne2 Qc7 32. Nd4 Qh2 33. Qxb6 Qxf2+ 34. Ne2 Rxc2+ 35. Kxc2 Qxe2+ 36. Kc3 Qxd3+ 37. Kb4 Qd2+ 38. Ka3 Qh2 39. Rd1 Be6 40. Rc1 Qxh3 41. b4 Qg3 42. b5 Qf2 43. Qd4 Nxg4 44. Rc3 Qg3 45. Ka4 Qe1 46. b6 Bd7+ 47. Kb4 Nxe3 48. Qxe3 Qf1 49. Kc5 Qb5+ 50. Kd6 Bg4 51. Rc6 Be6 52. Kc7 Qa5 53. Kb8 h5 54. Qg3+ Kh6 55. Qc7 Qb5 56. b7 e3 57. Qb6 Qxb6 58. Rxb6 e2 59. Rb1 Bf5 60. Re1 d4 61. Rxe2 d3 62. Rd2 Be4 63. Rxd3 Bxb7 64. Kxb7 g5 65. Rd6+ Kg7 66. Kc7 f5 67. Kd7 Kf7 68. Kc6 f4 69. Kd5 f3 70. Ke5 g4 71. Kf4 Kg7 72. Rd5 Kh6 73. Rf5 Kg6 74. Rf8 Kg7 75. Rf5 Kh6 76. Kg3 Kg6 77. Rd5 Kh6 78. Kh4 Kg6 79. Rd6+ Kh7 80. Kxh5 f2 81. Rf6 g3 82. Kh4 g2 83. Rxf2 g1=Q 84. Rf4 Kh6 85. Rf3 Qd4+ 86. Kg3 Kg5 87. Kg2 Kg4 88. Rg3+ Kf4 89. Kh3 Qd7+ 90. Kh2 Qc7 91. Rg2 Kf3+ 92. Kh1 Qc8 93. Ra2 Qc4 94. Rb2 Qc1+ 95. Kh2 Qxb2+ 96. Kg1 Qg2# 
