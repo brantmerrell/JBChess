@@ -16,4 +16,3 @@ for(n in arguments[-1]){
 filename <- paste("data/", min(arguments),"-",  max(arguments),".csv", sep="")
 
 write.csv(DF, filename, row.names=F)
-

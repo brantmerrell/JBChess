@@ -9,6 +9,9 @@ done
 
 Rscript scrapeLoop.R $((first)),$((last))
 
+aws s3 sync data s3://jbchess/data
+
+aws s3 ls s3://jbchess/data
 #for n in $(seq $((first)) $((last)));
 #	do Rscript test.R $((n));
 #done

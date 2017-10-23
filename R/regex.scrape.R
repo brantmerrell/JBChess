@@ -74,14 +74,15 @@ regex.scrape <- function(Link, type, errorMessage="unfound"){
           
         info <- Html[grep("^\\[.+&quot.+\\]$",Html)]
         info <- gsub("^\\[|&quot;]$","",info)
-        info <- unlist(strsplit(info," &quot;"))
+        info <- unlist(strsplit(info," &quot"))
         if(length(info) %% 2 != 0){info <- info[-length(info)]}
         if(2<length(info)){
-          openDF <- data.frame(matrix(info[seq(2,length(info),2)],nrow = 1), 
-                             stringsAsFactors = F)
-          colnames(openDF) <- info[seq(1,length(info),2)]
-          openDF <- cbind(openDF,pgn,stringsAsFactors=F)
+		openDF <- info[seq(2,length(info),2)]
+		openDF <- gsub(";", "", openDF)
+		openDF <- data.frame(matrix(openDF, nrow=1), stringsAsFactors=F)
+		colnames(openDF) <- info[seq(1,length(info),2)]
+		openDF <- cbind(openDF,pgn,stringsAsFactors=F)
         }else{openDF <- data.frame(White="",Black="", stringsAsFactors = F)}
-        return(openDF)
+	return(openDF)
       }
   }
