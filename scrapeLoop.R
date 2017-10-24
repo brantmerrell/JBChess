@@ -10,7 +10,7 @@ arguments <- seq(arguments[1], arguments[length(arguments)])
 DF <- scrape.chess.com(arguments[1])
 
 for(n in arguments[-1]){
-	DF <- rbind(DF,scrape.chess.com(n))
+	DF <- weave.rbind(DF,scrape.chess.com(n))
 }
 
 filename <- paste("data/", min(arguments),"-",  max(arguments),".csv", sep="")
