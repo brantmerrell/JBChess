@@ -9,7 +9,7 @@
 
 #Rscript scrapeLoop.R $((first)),$((last))
 
-for n in $(seq 0 99)
+for n in $(seq 100 199)
 do
 	first=$(($n*1000+1))
 	last=$(($n*1000+1000))

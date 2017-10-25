@@ -1,0 +1,107 @@
+2017-10-22 22:37:35      27644 data/2015-11-12 C1600W.csv
+2017-10-22 22:37:35       1076 data/2015-11-13 C1600W.csv
+2017-10-22 22:37:35      27644 data/2015-11-23 C1600W.csv
+2017-10-22 22:37:35       1262 data/2015.11.23 1600W.txt
+2017-10-22 22:37:35   11947489 data/2530.zip
+2017-10-22 22:37:35   20495316 data/WorldChampDB.pgn
+2017-10-22 22:37:35    5822316 data/WorldChampDB.zip
+2017-10-24 08:05:44     675384 data/chess.com IDs 1-1000.csv
+2017-10-24 10:37:58     753100 data/chess.com IDs 10001-11000.csv
+2017-10-24 08:21:01     704870 data/chess.com IDs 1001-2000.csv
+2017-10-24 11:04:11     756067 data/chess.com IDs 11001-12000.csv
+2017-10-24 11:19:50     739289 data/chess.com IDs 12001-13000.csv
+2017-10-24 11:35:32     740844 data/chess.com IDs 13001-14000.csv
+2017-10-24 11:51:28     735460 data/chess.com IDs 14001-15000.csv
+2017-10-24 12:07:18     760221 data/chess.com IDs 15001-16000.csv
+2017-10-24 12:23:34     753632 data/chess.com IDs 16001-17000.csv
+2017-10-24 12:39:37     770937 data/chess.com IDs 17001-18000.csv
+2017-10-24 12:55:32     750867 data/chess.com IDs 18001-19000.csv
+2017-10-24 08:36:11     765066 data/chess.com IDs 2001-3000.csv
+2017-10-24 13:19:30     750638 data/chess.com IDs 21001-22000.csv
+2017-10-24 13:35:48     766263 data/chess.com IDs 22001-23000.csv
+2017-10-24 13:52:33     748277 data/chess.com IDs 23001-24000.csv
+2017-10-24 14:09:12     748275 data/chess.com IDs 24001-25000.csv
+2017-10-24 14:26:00     761408 data/chess.com IDs 25001-26000.csv
+2017-10-24 14:43:03     721820 data/chess.com IDs 26001-27000.csv
+2017-10-24 15:00:30     747988 data/chess.com IDs 27001-28000.csv
+2017-10-24 15:17:44     756668 data/chess.com IDs 28001-29000.csv
+2017-10-24 08:51:50     745839 data/chess.com IDs 3001-4000.csv
+2017-10-24 16:10:58     795669 data/chess.com IDs 33001-34000.csv
+2017-10-24 16:28:46     771644 data/chess.com IDs 34001-35000.csv
+2017-10-24 17:03:36     767818 data/chess.com IDs 36001-37000.csv
+2017-10-24 17:21:13     770416 data/chess.com IDs 37001-38000.csv
+2017-10-24 17:39:02     768725 data/chess.com IDs 38001-39000.csv
+2017-10-24 17:55:45     743788 data/chess.com IDs 39001-40000.csv
+2017-10-24 18:12:46     777099 data/chess.com IDs 40001-41000.csv
+2017-10-24 09:07:19     753143 data/chess.com IDs 4001-5000.csv
+2017-10-24 18:39:49     782442 data/chess.com IDs 44001-45000.csv
+2017-10-24 19:06:30     778204 data/chess.com IDs 46001-47000.csv
+2017-10-24 19:23:12     765025 data/chess.com IDs 47001-48000.csv
+2017-10-24 19:43:47     779177 data/chess.com IDs 49001-50000.csv
+2017-10-24 09:22:56     772039 data/chess.com IDs 5001-6000.csv
+2017-10-24 20:06:54     776695 data/chess.com IDs 51001-52000.csv
+2017-10-24 20:23:20     747986 data/chess.com IDs 52001-53000.csv
+2017-10-24 20:39:47     779965 data/chess.com IDs 53001-54000.csv
+2017-10-24 20:56:01     762561 data/chess.com IDs 54001-55000.csv
+2017-10-24 21:12:29     761630 data/chess.com IDs 55001-56000.csv
+2017-10-24 21:28:41     771625 data/chess.com IDs 56001-57000.csv
+2017-10-24 21:44:59     766415 data/chess.com IDs 57001-58000.csv
+2017-10-24 22:02:02     765804 data/chess.com IDs 58001-59000.csv
+2017-10-24 22:18:21     757937 data/chess.com IDs 59001-60000.csv
+2017-10-24 22:34:20     762811 data/chess.com IDs 60001-61000.csv
+2017-10-24 09:38:23     759551 data/chess.com IDs 6001-7000.csv
+2017-10-24 22:50:06     753603 data/chess.com IDs 61001-62000.csv
+2017-10-24 23:05:55     773082 data/chess.com IDs 62001-63000.csv
+2017-10-24 23:22:07     759357 data/chess.com IDs 63001-64000.csv
+2017-10-24 23:38:00     752575 data/chess.com IDs 64001-65000.csv
+2017-10-24 23:53:53     777340 data/chess.com IDs 65001-66000.csv
+2017-10-25 00:09:55     747785 data/chess.com IDs 66001-67000.csv
+2017-10-25 00:25:51     769593 data/chess.com IDs 67001-68000.csv
+2017-10-25 00:41:49     757066 data/chess.com IDs 68001-69000.csv
+2017-10-25 00:58:07     756776 data/chess.com IDs 69001-70000.csv
+2017-10-25 01:14:16     765058 data/chess.com IDs 70001-71000.csv
+2017-10-24 09:54:03     751716 data/chess.com IDs 7001-8000.csv
+2017-10-25 01:30:42     734010 data/chess.com IDs 71001-72000.csv
+2017-10-25 01:46:54     721216 data/chess.com IDs 72001-73000.csv
+2017-10-25 02:02:43     761948 data/chess.com IDs 73001-74000.csv
+2017-10-25 02:18:49     734822 data/chess.com IDs 74001-75000.csv
+2017-10-25 02:35:12     744442 data/chess.com IDs 75001-76000.csv
+2017-10-25 02:51:15     743603 data/chess.com IDs 76001-77000.csv
+2017-10-25 03:08:32     688264 data/chess.com IDs 77001-78000.csv
+2017-10-25 03:31:55     682595 data/chess.com IDs 78001-79000.csv
+2017-10-25 03:49:36     674746 data/chess.com IDs 79001-80000.csv
+2017-10-24 10:09:47     754796 data/chess.com IDs 8001-9000.csv
+2017-10-25 04:08:50     664015 data/chess.com IDs 81001-82000.csv
+2017-10-25 04:26:20     674896 data/chess.com IDs 82001-83000.csv
+2017-10-25 04:43:50     699511 data/chess.com IDs 83001-84000.csv
+2017-10-25 05:01:11     680480 data/chess.com IDs 84001-85000.csv
+2017-10-25 05:20:50     673335 data/chess.com IDs 85001-86000.csv
+2017-10-25 05:38:20     667206 data/chess.com IDs 86001-87000.csv
+2017-10-25 05:55:28     680684 data/chess.com IDs 87001-88000.csv
+2017-10-25 06:12:42     675033 data/chess.com IDs 88001-89000.csv
+2017-10-25 06:29:59     676206 data/chess.com IDs 89001-90000.csv
+2017-10-25 06:47:04     672874 data/chess.com IDs 90001-91000.csv
+2017-10-25 22:24:02     735243 data/chess.com IDs 9001-10000.csv
+2017-10-25 07:04:10     668897 data/chess.com IDs 91001-92000.csv
+2017-10-25 07:22:10     657688 data/chess.com IDs 93001-94000.csv
+2017-10-25 07:39:06     660806 data/chess.com IDs 94001-95000.csv
+2017-10-25 07:56:17     681582 data/chess.com IDs 95001-96000.csv
+2017-10-25 08:13:18     669739 data/chess.com IDs 96001-97000.csv
+2017-10-25 08:30:37     659798 data/chess.com IDs 97001-98000.csv
+2017-10-25 08:47:32     662751 data/chess.com IDs 98001-99000.csv
+2017-10-25 09:07:04     681200 data/chess.com IDs 99001-100000.csv
+2017-10-22 22:37:35       3603 data/chess.com computer.txt
+2017-10-22 22:37:35      38675 data/chesslinks.csv
+2017-10-22 22:37:35      73650 data/chesslogs.csv
+2017-10-22 22:37:35    1161649 data/chesspgn.csv
+2017-10-22 22:37:35      27383 data/echess.csv
+2017-10-22 22:37:35     418660 data/gameID and moves.csv
+2017-10-22 22:37:35        166 data/hmm.txt
+2017-10-22 22:37:35     368720 data/incomplete_games_live.csv
+2017-10-22 22:37:35       1068 data/initial.csv
+2017-10-22 22:37:35     741462 data/livefull.csv
+2017-10-22 22:37:35     117952 data/metadata and pgn.csv
+2017-10-22 22:37:35        977 data/mobilestart.txt
+2017-10-22 22:37:35        786 data/piecestart.txt
+2017-10-22 22:37:35       1748 data/soulsearch.txt
+2017-10-22 22:37:35       3005 data/tactics.csv

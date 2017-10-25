@@ -19,13 +19,13 @@ regex.scrape <- function(Link, type, errorMessage="unfound"){
         Time <- strsplit(Time,"over ")[[1]][2]
       }
       if(grepl("live|corres",type)){
-        White <- strsplit(STR,"vs")[[1]][1]
+        White <- strsplit(STR," vs.? ")[[1]][1]
         WhiteElo <- unlist(strsplit(White, "[[:punct:]]"))
         WhiteElo <- gsub(" ","", WhiteElo[grepl("^\\d+$",WhiteElo)])
         if(length(WhiteElo)==0){WhiteElo <- 0}
         White <- strsplit(White, "[[:blank:]]")[[1]][1]
         
-        Black <- strsplit(STR,"vs|\\.")[[1]][2]
+        Black <- strsplit(STR," vs |\\.")[[1]][2]
         BlackElo <- unlist(strsplit(Black,"[[:punct:]]"))
         BlackElo <- gsub(" ", "", BlackElo[grepl("^\\d+$", BlackElo)])
         Black <- unlist(strsplit(Black,"[[:blank:]]"))
