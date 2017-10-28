@@ -31,5 +31,9 @@ scrape.chess.com <- function(id,type = c("live","correspondence","open")){
   DF <- weave.rbind(DF1,DF2)
   DF <- weave.rbind(DF, DF3)
   DF <- DF[DF$White!="",]
-  return(DF)
+  if(0<nrow(DF)){
+    return(DF)
+  }else{
+    return(data.frame(ID=paste("NA",id,sep="_"),stringsAsFactors=F))
+  }
 }

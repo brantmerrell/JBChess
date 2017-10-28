@@ -1,3 +1,7 @@
+# A function to list the squares and pieces between two squares of the chessboard. 
+
+# called by 
+
 betweens <- function(square1,square2,game_pgn){
   Col1 <- which(letters==strsplit(square1,"")[[1]][1]) # convert square's column letter to a number
   Row1 <- as.numeric(strsplit(square1,"")[[1]][2]) # extract square's row number
