@@ -7,13 +7,13 @@ arguments <- as.numeric(arguments)
 
 arguments <- seq(arguments[1], arguments[length(arguments)])
 
-DF <- scrape.chess.com(arguments[1])
+DF <- scrape.live(id=arguments[1])
 
-print(DF$ID)
+print(DF[,grepl("white|black|id",colnames(DF),ignore.case=T)])
 
 for(n in arguments[-1]){
-	DF <- weave.rbind(DF,scrape.chess.com(n))
-	print(tail(DF$ID,3))
+	DF <- weave.rbind(DF,scrape.live(id=n))
+	print(DF[grepl("white|black|id",colnames(DF),ignore.case=T)])
 }
 
 TEST <- grepl("thinkboolean", DF$White)
@@ -29,7 +29,7 @@ if(0<sum(TEST)){
 	write.csv(DF1, "../thinkboolean.csv", row.names=F)
 }
 
-filename <- paste("data/chess.com IDs ", min(arguments),"-",  max(arguments),".csv", sep="")
+filename <- paste("data/chess.com LIVE IDs ", min(arguments),"-",  max(arguments),".csv", sep="")
 
 write.csv(DF, filename, row.names=F)
 

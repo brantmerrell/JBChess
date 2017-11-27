@@ -5,18 +5,16 @@
 library(httr)
 library(XML)
 
-login <- function(link="https://chess.com/tactics/30129", 
-			user=readline("username:"), 	# it is unclear whether an argument can call the readline function
-			pass=readline("password:"),
+login <- function(link, 
 			path="login"){
+	user=readline("username:")
+	pass=readline("password:")
 	hnd <- paste(unlist(strsplit(link,"/")[[1]][1:3]), collapse="/")
 		# it is unclear whether this will collapse into the correct number of forward slashes
-
 	print(hnd)
-#	response <- POST(handle=hnd, path=path, 
-#			body=list(login=user,pass=pass,redirect_url=link))
-#	readLines(link)	
+#	print(hnd)
+	response <- POST(handle=hnd, path=path, 
+			body=list(login=user,pass=pass,redirect_url=link))
+	response
 }
-
-login()
 

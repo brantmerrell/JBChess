@@ -1,3 +1,7 @@
+
+source(list.files(pattern="scrape\\.live\\.R$",full.names=T, recursive=T))
+source(list.files(pattern="regex\\.scrape\\.R$",full.names=T, recursive=T))
+
 scrape.chess.com <- function(id,type = c("live","correspondence","open")){
   type <- paste(type,collapse = "")
   
@@ -21,7 +25,7 @@ scrape.chess.com <- function(id,type = c("live","correspondence","open")){
   
   if(grepl("live",type,ignore.case = T)){
     Link <- file.path("https://www.chess.com/live/game",id)
-    DF3 <- regex.scrape(Link,"live")
+    DF3 <- scrape.live(live.link=Link)
     DF3 <- cbind(DF3, ID=paste("l",id,sep="_"),stringsAsFactors=F)
   }else{
     DF3 <- data.frame(Link="NA", stringsAsFactors = F)
