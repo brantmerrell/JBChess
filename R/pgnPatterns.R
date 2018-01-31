@@ -12,6 +12,6 @@ pgnPattern <- "\\d\\..*[abcdefgh].*[12345678]"
 queenPattern <- "[Qq][Uu][Ee][Ee][Nn]|(^\\d+\\.+Qx?([[:lower:]]\\d)+[[:punct:]]+?$)"
 rookPattern <- "[Rr][Oo][Oo][Kk]|(^\\d+\\.+Rx?([[:lower:]]\\d)+$)"
 piecePatterns <- c(King=kingPattern, Queen=queenPattern, Rook=rookPattern, 
-                   Knight=knightPattern, Bishop=bishopPattern, pawn=pawnPattern)
+									 Knight=knightPattern, Bishop=bishopPattern, pawn=pawnPattern)
 whitePattern <- "[Ww][Hh][Ii][Tt][Ee]|([[:alnum:]]\\.{1,1}[[:alpha:]])"
 colorPatterns <- c(white=whitePattern, black=blackPattern)
