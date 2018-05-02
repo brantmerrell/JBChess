@@ -13,7 +13,7 @@ scrape.chess.com <- function(id,type = c("live","correspondence","open")){
 		DF1 <- data.frame(Link="NA", stringsAsFactors = F)
 	}
 	
-	if(grepl("corres|turn",type,ignore.case = T)){
+	if(grepl("corres|turn|daily",type,ignore.case = T)){
 		Link <- file.path("https://www.chess.com/daily/game",id)
 		DF2 <- regex.scrape(Link, "correspondence")
 		DF2 <- cbind(DF2, ID=paste("c",id,sep = "_"), stringsAsFactors=F)

@@ -1,0 +1,22 @@
+---
+title: "tidychess"
+author: "Josh Merrell"
+date: "March 30, 2016"
+output: html_document
+---
+## Purpose
+To transform chess data into formats compatible with statistics, machine learning, and other forms of data analysis in R.
+
+## Terminology
+  * __game data__
+  * __positional data__
+  * __PGN format__
+  * __FEN format__
+  * __matrix format__
+  * __tidy format__
+  * __positional mobility__
+
+## Testing
+```{r}
+# load functions
+```
