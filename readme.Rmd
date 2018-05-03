@@ -1,11 +1,10 @@
 ---
 title: "tidychess"
 author: "Josh Merrell"
-date: "March 30, 2016"
 output: html_document
 ---
 ## Purpose
-To transform chess data into formats compatible with statistics, machine learning, and other forms of data analysis in R.
+To transform chess data into formats compatible with statistics and machine learning in R.
 
 ## Terminology
   * __game data__
@@ -17,6 +16,17 @@ To transform chess data into formats compatible with statistics, machine learnin
   * __positional mobility__
 
 ## Testing
+Load objects
 ```{r}
-# load functions
+# load functions and regex patterns (invisibly, to avoid clutter)
+invisible(lapply(list.files("R", full.names = T), source))
+```
+
+Sometimes scrape.live.R returns a data frame of lists:
+```{r, eval=T}
+# This issue was noticed for game ID 100002
+DF <- scrape.live("https://www.chess.com/live/game/100002")
+
+# print class of each column:
+for(m in 1:ncol(DF)){print(paste(m, colnames(DF)[m], class(DF[, m])))}
 ```

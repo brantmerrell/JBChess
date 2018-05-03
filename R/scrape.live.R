@@ -8,15 +8,15 @@ scrape.live <- function(live.link=NULL, id=NULL){
 	# if id is provided, construct link from id
 	}else{
 		# combine with "/", but not with "//"
-		live.link <- file.path("https://chess.com/live/game", id)
+		live.link <- file.path("https://www.chess.com/live/game", id)
 	}
 	# Get html code frokm link
 	Html <- readLines(live.link) # get link
 
 	# test to ensure scraping pattern & procedure are compatible with Html
-	if(sum(grepl(paste(id,",&quot;",sep=""),Html))!=1){ 
-		# stop function if not compatible
-		stop('sum of pattern "<id>,&qout;" does not equal 1') 
+	if(sum(grepl(paste(id,",&quot;",sep=""),Html))!=1){
+		# return empty data if incompatible
+		return(data.frame(White="",Black="", stringsAsFactors = F))
 
 	# Remove all Html except the part with the data
 	}else{Html <- Html[grepl(paste(id,",&quot;",sep=""),Html)]}

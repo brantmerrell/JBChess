@@ -1,0 +1,9 @@
+{
+    "path" : "~/tidychess/tidychess",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

@@ -9,12 +9,13 @@
 
 #Rscript scrapeLoop.R $((first)),$((last))
 
-for n in $(seq 300 399)
+for n in $(seq 100 110)
 do
 	first=$(($n*1000+1))
 	last=$(($n*1000+1000))
-	Rscript scrapeLoop.R $first,$last
-	aws s3 mv data s3://jbchess/data --recursive
+	echo $first,$last
+	Rscript R/scrape.chess.com.R $first $last
+	# aws s3 mv data s3://jbchess/data --recursive
 done
 
 #aws s3 ls s3://jbchess/data --recursive
