@@ -56,13 +56,8 @@ if("--args" %in% ARGS){
 	print(ARGS[1])
 	# scrape the rest of the IDs in the sequence
 	for(n in ARGS[-1]){
-		DF <- weave.rbind(DF, scrape.chess.com(n))
-		for(m in 1:ncol(DF)){
-		  if(class(DF[,m])=="list"){
-		    print(colnames(DF)[m])
-		    stop("class list")
-		  }
-		}
+		  DF <- weave.rbind(DF, scrape.chess.com(n))
+		  print(n)
 	}
 	# Test for my username in white
 	TEST <- grepl("thinkboolean", DF$White)
@@ -74,8 +69,9 @@ if("--args" %in% ARGS){
 	  write.csv(x = DF[TEST,], row.names=F,
 	            file = paste("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv", sep = ""))
 	}
-	# remove encoding from DF
-
+	# if there is no directory "data", make one
+	if(!file.exists("data")){dir.create("data")}
+	
 	# write data frame of games
 	write.csv(DF[,16:20], file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
 	          row.names=F)
