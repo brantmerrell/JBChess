@@ -75,6 +75,11 @@ scrape.live <- function(live.link=NULL, id=NULL){
 
 	# combine both matrices into one; delete them
 	DF <- data.frame(cbind(DF1,DF2),stringsAsFactors=F);rm(DF1,DF2)
+	
+	# convert any columns of class "list" to class "character"
+	for(m in 1:ncol(DF)){
+	  if(class(DF[,m])=="list"){DF[,m] <- as.character(DF[,m])}
+	}
 
 	# add positional game data (pgn and FEN @ move zero) to data frame
 	DF <- cbind(DF, pgn, FEN0, stringsAsFactors=F)

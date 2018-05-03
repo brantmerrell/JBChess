@@ -1,7 +1,7 @@
 ---
 title: "tidychess"
 author: "Josh Merrell"
-output: html_document
+output: github_document
 ---
 ## Purpose
 To transform chess data into formats compatible with statistics and machine learning in R.
