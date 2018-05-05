@@ -1,13 +1,6 @@
 #!/bin/bash
 
-#while getopts f:l: o
-#do	case "$o" in 
-#	f)	first="$OPTARG";;
-#	l)	last="$OPTARG" 
-#	esac
-#done
-
-#Rscript scrapeLoop.R $((first)),$((last))
+aws s3 ls s3://jbchess/data --recursive > temp.txt
 
 for n in $(seq 100 199)
 do
@@ -18,4 +11,3 @@ do
 	aws s3 mv data s3://jbchess/data --recursive
 done
 
-#aws s3 ls s3://jbchess/data --recursive

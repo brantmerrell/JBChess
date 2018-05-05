@@ -49,30 +49,40 @@ ARGS <- commandArgs()
 if("--args" %in% ARGS){
 	# convert them to numbers
 	ARGS <- as.numeric(ARGS[grepl("^\\d+$",ARGS)])
-	# create sequence from minimum to maximum
-	ARGS <- seq(min(ARGS), max(ARGS))
-	# scrape the first ID in the sequence
-	DF <- scrape.chess.com(ARGS[1])
-	print(ARGS[1])
-	# scrape the rest of the IDs in the sequence
-	for(n in ARGS[-1]){
-		  DF <- weave.rbind(DF, scrape.chess.com(n))
-		  print(n)
+
+	filePattern <- paste(min(ARGS), "-", max(ARGS), ".csv", sep="")
+	filename <- paste("data/chess.com IDs", filePattern)
+	Files <- readLines("temp.txt")
+
+	if(sum(grepl(filename,Files))==0){
+
+		# create sequence from minimum to maximum
+		ARGS <- seq(min(ARGS), max(ARGS))
+		# scrape the first ID in the sequence
+		DF <- scrape.chess.com(ARGS[1])
+		print(ARGS[1])
+		# scrape the rest of the IDs in the sequence
+		for(n in ARGS[-1]){
+			DF <- weave.rbind(DF, scrape.chess.com(n))
+			print(n)
+		}
+		# Test for my username in white
+		TEST <- grepl("thinkboolean", DF$White)
+		# test for my username in black
+		TEST <- TEST | grepl("thinkboolean", DF$Black)
+		# If my username ever occurs,
+		if(0<sum(TEST)){
+		# store subset of games
+		write.csv(x = DF[TEST,], row.names=F,
+					file = paste("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv", sep = ""))
+		}
+		# if there is no directory "data", make one
+		if(!file.exists("data")){dir.create("data")}
+		
+		# write data frame of games
+		write.csv(DF[,16:20], file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
+				row.names=F)
 	}
-	# Test for my username in white
-	TEST <- grepl("thinkboolean", DF$White)
-	# test for my username in black
-	TEST <- TEST | grepl("thinkboolean", DF$Black)
-	# If my username ever occurs,
-	if(0<sum(TEST)){
-	  # store subset of games
-	  write.csv(x = DF[TEST,], row.names=F,
-	            file = paste("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv", sep = ""))
-	}
-	# if there is no directory "data", make one
-	if(!file.exists("data")){dir.create("data")}
-	
-	# write data frame of games
-	write.csv(DF[,16:20], file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
-	          row.names=F)
+
 }
+
