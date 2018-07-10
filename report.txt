@@ -1,0 +1,207 @@
+start 200001 201000 Tue Jul 10 13:41:48 EDT 2018
+[1] "skipping data/chess.com IDs 200001-201000.csv"
+start 201001 202000 Tue Jul 10 13:41:49 EDT 2018
+[1] "skipping data/chess.com IDs 201001-202000.csv"
+start 202001 203000 Tue Jul 10 13:41:49 EDT 2018
+[1] "skipping data/chess.com IDs 202001-203000.csv"
+start 203001 204000 Tue Jul 10 13:41:50 EDT 2018
+[1] "skipping data/chess.com IDs 203001-204000.csv"
+start 204001 205000 Tue Jul 10 13:41:50 EDT 2018
+[1] "skipping data/chess.com IDs 204001-205000.csv"
+start 205001 206000 Tue Jul 10 13:41:51 EDT 2018
+[1] "skipping data/chess.com IDs 205001-206000.csv"
+start 206001 207000 Tue Jul 10 13:41:51 EDT 2018
+[1] "skipping data/chess.com IDs 206001-207000.csv"
+start 207001 208000 Tue Jul 10 13:41:52 EDT 2018
+[1] "skipping data/chess.com IDs 207001-208000.csv"
+start 208001 209000 Tue Jul 10 13:41:52 EDT 2018
+[1] "skipping data/chess.com IDs 208001-209000.csv"
+start 209001 210000 Tue Jul 10 13:41:53 EDT 2018
+[1] "skipping data/chess.com IDs 209001-210000.csv"
+start 210001 211000 Tue Jul 10 13:41:53 EDT 2018
+[1] "skipping data/chess.com IDs 210001-211000.csv"
+start 211001 212000 Tue Jul 10 13:41:54 EDT 2018
+[1] "skipping data/chess.com IDs 211001-212000.csv"
+start 212001 213000 Tue Jul 10 13:41:54 EDT 2018
+[1] "skipping data/chess.com IDs 212001-213000.csv"
+start 213001 214000 Tue Jul 10 13:41:55 EDT 2018
+[1] "skipping data/chess.com IDs 213001-214000.csv"
+start 214001 215000 Tue Jul 10 13:41:55 EDT 2018
+[1] "skipping data/chess.com IDs 214001-215000.csv"
+start 215001 216000 Tue Jul 10 13:41:56 EDT 2018
+[1] "skipping data/chess.com IDs 215001-216000.csv"
+start 216001 217000 Tue Jul 10 13:41:56 EDT 2018
+[1] "skipping data/chess.com IDs 216001-217000.csv"
+start 217001 218000 Tue Jul 10 13:41:57 EDT 2018
+[1] "skipping data/chess.com IDs 217001-218000.csv"
+start 218001 219000 Tue Jul 10 13:41:57 EDT 2018
+[1] "skipping data/chess.com IDs 218001-219000.csv"
+start 219001 220000 Tue Jul 10 13:41:58 EDT 2018
+[1] "skipping data/chess.com IDs 219001-220000.csv"
+start 220001 221000 Tue Jul 10 13:41:58 EDT 2018
+[1] "skipping data/chess.com IDs 220001-221000.csv"
+start 221001 222000 Tue Jul 10 13:41:59 EDT 2018
+[1] "skipping data/chess.com IDs 221001-222000.csv"
+start 222001 223000 Tue Jul 10 13:41:59 EDT 2018
+[1] "skipping data/chess.com IDs 222001-223000.csv"
+start 223001 224000 Tue Jul 10 13:42:00 EDT 2018
+[1] "skipping data/chess.com IDs 223001-224000.csv"
+start 224001 225000 Tue Jul 10 13:42:00 EDT 2018
+[1] "skipping data/chess.com IDs 224001-225000.csv"
+start 225001 226000 Tue Jul 10 13:42:01 EDT 2018
+[1] "skipping data/chess.com IDs 225001-226000.csv"
+start 226001 227000 Tue Jul 10 13:42:02 EDT 2018
+[1] "skipping data/chess.com IDs 226001-227000.csv"
+start 227001 228000 Tue Jul 10 13:42:02 EDT 2018
+[1] "skipping data/chess.com IDs 227001-228000.csv"
+start 228001 229000 Tue Jul 10 13:42:03 EDT 2018
+[1] "skipping data/chess.com IDs 228001-229000.csv"
+start 229001 230000 Tue Jul 10 13:42:03 EDT 2018
+[1] "skipping data/chess.com IDs 229001-230000.csv"
+start 230001 231000 Tue Jul 10 13:42:04 EDT 2018
+[1] "skipping data/chess.com IDs 230001-231000.csv"
+start 231001 232000 Tue Jul 10 13:42:04 EDT 2018
+[1] "skipping data/chess.com IDs 231001-232000.csv"
+start 232001 233000 Tue Jul 10 13:42:05 EDT 2018
+[1] "skipping data/chess.com IDs 232001-233000.csv"
+start 233001 234000 Tue Jul 10 13:42:05 EDT 2018
+[1] "skipping data/chess.com IDs 233001-234000.csv"
+start 234001 235000 Tue Jul 10 13:42:06 EDT 2018
+[1] "skipping data/chess.com IDs 234001-235000.csv"
+start 235001 236000 Tue Jul 10 13:42:06 EDT 2018
+[1] "skipping data/chess.com IDs 235001-236000.csv"
+start 236001 237000 Tue Jul 10 13:42:07 EDT 2018
+[1] "skipping data/chess.com IDs 236001-237000.csv"
+start 237001 238000 Tue Jul 10 13:42:07 EDT 2018
+[1] "skipping data/chess.com IDs 237001-238000.csv"
+start 238001 239000 Tue Jul 10 13:42:08 EDT 2018
+[1] "skipping data/chess.com IDs 238001-239000.csv"
+start 239001 240000 Tue Jul 10 13:42:08 EDT 2018
+[1] "skipping data/chess.com IDs 239001-240000.csv"
+start 240001 241000 Tue Jul 10 13:42:09 EDT 2018
+[1] "skipping data/chess.com IDs 240001-241000.csv"
+start 241001 242000 Tue Jul 10 13:42:09 EDT 2018
+[1] "skipping data/chess.com IDs 241001-242000.csv"
+start 242001 243000 Tue Jul 10 13:42:10 EDT 2018
+[1] "skipping data/chess.com IDs 242001-243000.csv"
+start 243001 244000 Tue Jul 10 13:42:10 EDT 2018
+[1] "skipping data/chess.com IDs 243001-244000.csv"
+start 244001 245000 Tue Jul 10 13:42:11 EDT 2018
+[1] "skipping data/chess.com IDs 244001-245000.csv"
+start 245001 246000 Tue Jul 10 13:42:11 EDT 2018
+[1] "skipping data/chess.com IDs 245001-246000.csv"
+start 246001 247000 Tue Jul 10 13:42:12 EDT 2018
+[1] "skipping data/chess.com IDs 246001-247000.csv"
+start 247001 248000 Tue Jul 10 13:42:12 EDT 2018
+[1] "skipping data/chess.com IDs 247001-248000.csv"
+start 248001 249000 Tue Jul 10 13:42:13 EDT 2018
+[1] "skipping data/chess.com IDs 248001-249000.csv"
+start 249001 250000 Tue Jul 10 13:42:13 EDT 2018
+[1] "skipping data/chess.com IDs 249001-250000.csv"
+start 250001 251000 Tue Jul 10 13:42:14 EDT 2018
+[1] "skipping data/chess.com IDs 250001-251000.csv"
+start 251001 252000 Tue Jul 10 13:42:14 EDT 2018
+[1] "skipping data/chess.com IDs 251001-252000.csv"
+start 252001 253000 Tue Jul 10 13:42:15 EDT 2018
+[1] "skipping data/chess.com IDs 252001-253000.csv"
+start 253001 254000 Tue Jul 10 13:42:15 EDT 2018
+[1] "skipping data/chess.com IDs 253001-254000.csv"
+start 254001 255000 Tue Jul 10 13:42:16 EDT 2018
+[1] "skipping data/chess.com IDs 254001-255000.csv"
+start 255001 256000 Tue Jul 10 13:42:16 EDT 2018
+[1] "skipping data/chess.com IDs 255001-256000.csv"
+start 256001 257000 Tue Jul 10 13:42:17 EDT 2018
+[1] "skipping data/chess.com IDs 256001-257000.csv"
+start 257001 258000 Tue Jul 10 13:42:17 EDT 2018
+[1] "skipping data/chess.com IDs 257001-258000.csv"
+start 258001 259000 Tue Jul 10 13:42:18 EDT 2018
+[1] "skipping data/chess.com IDs 258001-259000.csv"
+start 259001 260000 Tue Jul 10 13:42:19 EDT 2018
+[1] "skipping data/chess.com IDs 259001-260000.csv"
+start 260001 261000 Tue Jul 10 13:42:19 EDT 2018
+[1] "skipping data/chess.com IDs 260001-261000.csv"
+start 261001 262000 Tue Jul 10 13:42:20 EDT 2018
+[1] "skipping data/chess.com IDs 261001-262000.csv"
+start 262001 263000 Tue Jul 10 13:42:20 EDT 2018
+[1] "skipping data/chess.com IDs 262001-263000.csv"
+start 263001 264000 Tue Jul 10 13:42:21 EDT 2018
+[1] "skipping data/chess.com IDs 263001-264000.csv"
+start 264001 265000 Tue Jul 10 13:42:21 EDT 2018
+[1] "skipping data/chess.com IDs 264001-265000.csv"
+start 265001 266000 Tue Jul 10 13:42:22 EDT 2018
+[1] "skipping data/chess.com IDs 265001-266000.csv"
+start 266001 267000 Tue Jul 10 13:42:22 EDT 2018
+[1] "skipping data/chess.com IDs 266001-267000.csv"
+start 267001 268000 Tue Jul 10 13:42:23 EDT 2018
+[1] "skipping data/chess.com IDs 267001-268000.csv"
+start 268001 269000 Tue Jul 10 13:42:23 EDT 2018
+[1] "skipping data/chess.com IDs 268001-269000.csv"
+start 269001 270000 Tue Jul 10 13:42:24 EDT 2018
+[1] "skipping data/chess.com IDs 269001-270000.csv"
+start 270001 271000 Tue Jul 10 13:42:24 EDT 2018
+[1] "skipping data/chess.com IDs 270001-271000.csv"
+start 271001 272000 Tue Jul 10 13:42:25 EDT 2018
+[1] "skipping data/chess.com IDs 271001-272000.csv"
+start 272001 273000 Tue Jul 10 13:42:25 EDT 2018
+[1] "skipping data/chess.com IDs 272001-273000.csv"
+start 273001 274000 Tue Jul 10 13:42:26 EDT 2018
+[1] "skipping data/chess.com IDs 273001-274000.csv"
+start 274001 275000 Tue Jul 10 13:42:26 EDT 2018
+[1] "skipping data/chess.com IDs 274001-275000.csv"
+start 275001 276000 Tue Jul 10 13:42:27 EDT 2018
+[1] "skipping data/chess.com IDs 275001-276000.csv"
+start 276001 277000 Tue Jul 10 13:42:27 EDT 2018
+[1] "skipping data/chess.com IDs 276001-277000.csv"
+start 277001 278000 Tue Jul 10 13:42:28 EDT 2018
+[1] "skipping data/chess.com IDs 277001-278000.csv"
+start 278001 279000 Tue Jul 10 13:42:28 EDT 2018
+[1] "skipping data/chess.com IDs 278001-279000.csv"
+start 279001 280000 Tue Jul 10 13:42:29 EDT 2018
+[1] "skipping data/chess.com IDs 279001-280000.csv"
+start 280001 281000 Tue Jul 10 13:42:29 EDT 2018
+[1] "skipping data/chess.com IDs 280001-281000.csv"
+start 281001 282000 Tue Jul 10 13:42:30 EDT 2018
+[1] "skipping data/chess.com IDs 281001-282000.csv"
+start 282001 283000 Tue Jul 10 13:42:30 EDT 2018
+[1] "skipping data/chess.com IDs 282001-283000.csv"
+start 283001 284000 Tue Jul 10 13:42:31 EDT 2018
+[1] "skipping data/chess.com IDs 283001-284000.csv"
+start 284001 285000 Tue Jul 10 13:42:31 EDT 2018
+[1] "skipping data/chess.com IDs 284001-285000.csv"
+start 285001 286000 Tue Jul 10 13:42:32 EDT 2018
+[1] "skipping data/chess.com IDs 285001-286000.csv"
+start 286001 287000 Tue Jul 10 13:42:32 EDT 2018
+[1] "skipping data/chess.com IDs 286001-287000.csv"
+start 287001 288000 Tue Jul 10 13:42:33 EDT 2018
+[1] "skipping data/chess.com IDs 287001-288000.csv"
+start 288001 289000 Tue Jul 10 13:42:33 EDT 2018
+[1] "skipping data/chess.com IDs 288001-289000.csv"
+start 289001 290000 Tue Jul 10 13:42:34 EDT 2018
+[1] "skipping data/chess.com IDs 289001-290000.csv"
+start 290001 291000 Tue Jul 10 13:42:34 EDT 2018
+[1] "skipping data/chess.com IDs 290001-291000.csv"
+start 291001 292000 Tue Jul 10 13:42:35 EDT 2018
+[1] "skipping data/chess.com IDs 291001-292000.csv"
+start 292001 293000 Tue Jul 10 13:42:35 EDT 2018
+[1] "skipping data/chess.com IDs 292001-293000.csv"
+start 293001 294000 Tue Jul 10 13:42:36 EDT 2018
+[1] "skipping data/chess.com IDs 293001-294000.csv"
+start 294001 295000 Tue Jul 10 13:42:36 EDT 2018
+[1] "skipping data/chess.com IDs 294001-295000.csv"
+start 295001 296000 Tue Jul 10 13:42:37 EDT 2018
+[1] "skipping data/chess.com IDs 295001-296000.csv"
+start 296001 297000 Tue Jul 10 13:42:37 EDT 2018
+[1] "skipping data/chess.com IDs 296001-297000.csv"
+start 297001 298000 Tue Jul 10 13:42:38 EDT 2018
+[1] "skipping data/chess.com IDs 297001-298000.csv"
+start 298001 299000 Tue Jul 10 13:42:38 EDT 2018
+[1] "skipping data/chess.com IDs 298001-299000.csv"
+start 299001 300000 Tue Jul 10 13:42:39 EDT 2018
+[1] 299001
+[1] 299002
+[1] 299003
+[1] 299004
+[1] 299005
+[1] 299006
+[1] 299007
+[1] 299008

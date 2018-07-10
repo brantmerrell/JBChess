@@ -50,7 +50,7 @@ if("--args" %in% ARGS){
 	# convert them to numbers
 	ARGS <- as.numeric(ARGS[grepl("^\\d+$",ARGS)])
 
-	filePattern <- paste(min(ARGS), "-", max(ARGS), ".csv", sep="")
+	filePattern <- paste0(min(ARGS), "-", max(ARGS), ".csv")
 	filename <- paste("data/chess.com IDs", filePattern)
 	Files <- readLines("temp.txt")
 
@@ -80,8 +80,10 @@ if("--args" %in% ARGS){
 		if(!file.exists("data")){dir.create("data")}
 		
 		# write data frame of games
-		write.csv(DF[,16:20], file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
+		write.csv(DF, file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
 				row.names=F)
+	}else{
+		print(paste("skipping", filename))
 	}
 
 }
