@@ -1,12 +1,13 @@
 ---
 title: "tidychess"
 author: "Josh Merrell"
-output: github_document
+output: 
+  github_document:
+    toc: true
+    keep_md: false
 ---
-## Purpose
-To transform chess data into formats compatible with statistics and machine learning in R.
-
-## Terminology
+# Introduction
+**Terminology**  
   * __game data__
   * __positional data__
   * __PGN format__
@@ -14,19 +15,82 @@ To transform chess data into formats compatible with statistics and machine lear
   * __matrix format__
   * __tidy format__
   * __positional mobility__
+  * __pathPrior__: planning to change the name to _theoretical mobility_. Lists the squares a piece can move on an empty chessboard.
+  * __Post functions__: planning to change the name to _ingame_ functions. They were named for _aposteriori_, and they list the squares to which a piece can move from a given position.
 
-## Testing
-Load objects
+**Setup**
+```{r setup}
+lapply(list.files("R", full.names = T), source)
+```
+
+# Data Acquisition
+**Bash-managed scraping**
+```{r bash-scrape, engine="bash"}
+#!/bin/bash
+# obtain list of previously stored data to avoid duplication
+aws s3 ls s3://jbchess/data --recursive > temp.txt
+
+# iterate through a range of numbers
+for n in $(seq 200 1000)
+do
+
+  # adjust both numbers to the proper order of magnitude
+	first=$(($n*1000+1))
+	last=$(($n*1000+1000))
+	# record the beginning & ending range of numbers; include a timestamp
+	echo start $first $last $(date)
+	
+	# pass the range of numbers to the scrape.chess.com function
+	Rscript R/scrape.chess.com.R $first $last
+	
+	# move the acquired data to the bucket
+	aws s3 mv data s3://jbchess/data --recursive
+done
+```
+
+# Exploration of Functions
+**pathPrior**
+```{r pathPrior}
+pathPrior(piece = "bishop", square = "e5")
+pathPrior(piece = "knight", square = "e5")
+pathPrior(piece = "black pawn", square = "e5")
+pathPrior(piece = "white pawn", square = "e5")
+```
+**position object**
+```{r position}
+position <- setup()
+row.names(position)
+colnames(position)
+```
+**pathPost**
+```{r pathPost}
+ls(pattern = ".Post")
+pawnPost.(square = "a7", game_pgn = 2)
+onboard$pawn(square = "a7", game_pgn = 2)
+bishopPost.(square = "c8", game_pgn = 2)
+knightPost.(square = "b8", game_pgn = 2)
+rookPost.(square = "h8", game_pgn = 2)
+queenPost.(square = "d1", game_pgn = 2)
+kingPost.(square = "e8", game_pgn = 2)
+mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
+```
+**compare post & prior**
+```{r post-prior, eval=F}
+pathPrior(piece = "knight", square = "b1")
+pathPost.(square = "b1", game_pgn = "000_zero")
+```
+
+Because of the game_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.
 ```{r}
-# load functions and regex patterns (invisibly, to avoid clutter)
-invisible(lapply(list.files("R", full.names = T), source))
+for(n in 1:nrow(moves)){
+  pgn <- paste("xmpl1",
+               as.vector(moves[n,"pgn"]),
+               sep="_")
+  if(!pgn %in% row.names(position)){
+    position<-rbind(position, newPosition(new_pgn = pgn))
+  }
+}
+rownames(position)
 ```
 
-Sometimes scrape.live.R returns a data frame of lists:
-```{r, eval=T}
-# This issue was noticed for game ID 100002
-DF <- scrape.live("https://www.chess.com/live/game/100002")
-
-# print class of each column:
-for(m in 1:ncol(DF)){print(paste(m, colnames(DF)[m], class(DF[, m])))}
-```
+# Exploration of Chessboards
