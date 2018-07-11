@@ -67,13 +67,13 @@ if("--args" %in% ARGS){
 			print(n)
 		}
 		# Test for my username in white
-		TEST <- grepl("thinkboolean", DF$White)
+		TEST <- "thinkboolean"==DF$White
 		# test for my username in black
-		TEST <- TEST | grepl("thinkboolean", DF$Black)
+		TEST <- TEST | "thinkboolean"==DF$Black
 		# If my username ever occurs,
 		if(0<sum(TEST)){
 		# store subset of games
-		write.csv(x = DF[TEST,], row.names=F,
+			write.csv(x = DF[TEST,], row.names=F,
 					file = paste("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv", sep = ""))
 		}
 		# if there is no directory "data", make one
