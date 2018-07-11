@@ -4,7 +4,6 @@ author: "Josh Merrell"
 output: 
   github_document:
     toc: true
-    keep_md: false
 ---
 # Introduction
 **Terminology**  
@@ -25,7 +24,7 @@ lapply(list.files("R", full.names = T), source)
 
 # Data Acquisition
 **Bash-managed scraping**
-```{r bash-scrape, engine="bash"}
+```{r bash-scrape, engine="bash", eval=F}
 #!/bin/bash
 # obtain list of previously stored data to avoid duplication
 aws s3 ls s3://jbchess/data --recursive > temp.txt
@@ -66,7 +65,6 @@ colnames(position)
 ```{r pathPost}
 ls(pattern = ".Post")
 pawnPost.(square = "a7", game_pgn = 2)
-onboard$pawn(square = "a7", game_pgn = 2)
 bishopPost.(square = "c8", game_pgn = 2)
 knightPost.(square = "b8", game_pgn = 2)
 rookPost.(square = "h8", game_pgn = 2)
@@ -81,7 +79,7 @@ pathPost.(square = "b1", game_pgn = "000_zero")
 ```
 
 Because of the game_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.
-```{r}
+```{r, eval=F}
 for(n in 1:nrow(moves)){
   pgn <- paste("xmpl1",
                as.vector(moves[n,"pgn"]),
