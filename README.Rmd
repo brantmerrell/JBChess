@@ -19,7 +19,7 @@ output:
 
 **Setup**
 ```{r setup}
-lapply(list.files("R", full.names = T), source)
+invisible(lapply(list.files("R", full.names = T), source))
 ```
 
 # Data Acquisition
