@@ -11,9 +11,9 @@ kingPost. <- function(square,game_pgn){
 	Test <- function(toSquare,fromSquare=square){
 		fromColor <- pieceColor(fromSquare,game_pgn)
 		if(!is.na(fromColor)){
-			if(fromColor==whitePattern){colorPattern <- blackPattern}
-			if(fromColor==blackPattern){colorPattern <- whitePattern}
-		}else{colorPattern <- blackPattern}
+			if(fromColor==chesspatterns$white){colorPattern <- chesspatterns$black}
+			if(fromColor==chesspatterns$black){colorPattern <- chesspatterns$white}
+		}else{colorPattern <- chesspatterns$black}
 		toColor <- pieceColor(toSquare,game_pgn)
 		grepl(colorPattern,position[game_pgn,toSquare]) |
 			is.na(position[game_pgn,toSquare]) |

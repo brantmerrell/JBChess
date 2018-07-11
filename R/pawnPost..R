@@ -1,13 +1,13 @@
 pawnPost. <- function(square,game_pgn=nrow(position)){
 	
 	# specify direction for black pawns
-	if(grepl(blackPattern,position[game_pgn,square])){direction <- -1}
+	if(grepl(chesspatterns$black,position[game_pgn,square])){direction <- -1}
 	
 	# specify direction for white pawns
-	if(grepl(whitePattern,position[game_pgn,square])){direction <- 1}
+	if(grepl(chesspatterns$white,position[game_pgn,square])){direction <- 1}
 	
 	# specify double direction for unspecified pawns
-	if(!grepl(paste(blackPattern,whitePattern, sep="|"), position[game_pgn,square])){
+	if(!grepl(paste(chesspatterns$black,chesspatterns$white, sep="|"), position[game_pgn,square])){
 		direction <- c(1,-1)
 	}
 	
@@ -42,10 +42,10 @@ pawnPost. <- function(square,game_pgn=nrow(position)){
 	AttTest <- function(AttSquare,fromSquare=square){
 		
 		# if the attacking and defending pieces are different colors... 
-		ifelse((grepl(blackPattern,position[game_pgn,fromSquare]) & # black attacking pience & 
-							grepl(whitePattern,position[game_pgn,AttSquare])) | # white defending piece OR
-						 (grepl(whitePattern,position[game_pgn,fromSquare]) & # white attacking piece & 
-								grepl(blackPattern,position[game_pgn,AttSquare])), # black defending piece
+		ifelse((grepl(chesspatterns$black,position[game_pgn,fromSquare]) & # black attacking pience & 
+							grepl(chesspatterns$white,position[game_pgn,AttSquare])) | # white defending piece OR
+						 (grepl(chesspatterns$white,position[game_pgn,fromSquare]) & # white attacking piece & 
+								grepl(chesspatterns$black,position[game_pgn,AttSquare])), # black defending piece
 					 # . . . return TRUE, otherwise FALSE
 					 T,F)
 	}

@@ -19,7 +19,7 @@ pawnLeap <- function (game_pgn = nrow(position)) {
 		return(F)
 	}
 	else {
-		isPawn <- grepl(pawnPattern, row.names(position)[game_pgn])
+		isPawn <- grepl(chesspatterns$pawn, row.names(position)[game_pgn])
 		didntCapture <- !grepl("x", row.names(position)[game_pgn])
 		leapTo <- grepl("[abcdefg][45]", row.names(position)[game_pgn])
 		leapFrom <- position[game_pgn, square] == position[lookBack(game_pgn, 

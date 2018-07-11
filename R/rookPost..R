@@ -18,11 +18,11 @@ rookPost. <- function(square,game_pgn){
 		
 		# store the color that can be captured by moving piece
 		if(!is.na(fromColor)){
-			if(fromColor==whitePattern){colorPattern <- blackPattern}
-			if(fromColor==blackPattern){colorPattern <- whitePattern}
+			if(fromColor==chesspatterns$white){colorPattern <- chesspatterns$black}
+			if(fromColor==chesspatterns$black){colorPattern <- chesspatterns$white}
 			
 		# if moving piece color is unspecified, default to white
-		}else{colorPattern <- blackPattern}
+		}else{colorPattern <- chesspatterns$black}
 		
 		# define the color of the destination square
 		toColor <- pieceColor(toSquare,game_pgn)

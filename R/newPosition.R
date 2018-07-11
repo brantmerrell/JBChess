@@ -1,13 +1,13 @@
 newPosition <- function(new_pgn, startPosition=nrow(position)){
 	
 	# determine whether the move is a 'castle', in which king and rook both move:
-	castle <- grepl(castlePattern,new_pgn)
+	castle <- grepl(chesspatterns$castle,new_pgn)
 	
 	# determine whether the move is a pawn promotion:
 	promotion <- grepl("[QRBN][+#]?$",new_pgn)
 	
 	# determine whether a black or a white piece is moving:
-	color <- ifelse(grepl(blackPattern,new_pgn),"black","white")
+	color <- ifelse(grepl(chesspatterns$black,new_pgn),"black","white")
 	
 	# determine which move of the game is being assessed:
 	move <- strsplit(new_pgn,"\\.|_")[[1]]
@@ -77,7 +77,7 @@ newPosition <- function(new_pgn, startPosition=nrow(position)){
 		newPosition[,endSquare] <- piece
 		
 		# if moving piece is pawn and destination point is phantom, remove concrete pawn:
-		if(grepl(pawnPattern,piece) & grepl("phantom",position[startPosition,endSquare])){
+		if(grepl(chesspatterns$pawn,piece) & grepl("phantom",position[startPosition,endSquare])){
 			Col <- which(letters==strsplit(endSquare,"")[[1]][1]) # identify the column
 			if(grepl("^.6$",endSquare)){
 				concretePawn <- paste(letters[Col],"5",sep="")
@@ -93,7 +93,7 @@ newPosition <- function(new_pgn, startPosition=nrow(position)){
 		newPosition[,phanP] <- NA
 		
 		# if piece was a pawn and it moved two spaces, create 'phantom pawn' for potential en passant
-		if(grepl(pawnPattern,piece) & grepl("2|7",startSquare) & grepl("4|5",endSquare)){
+		if(grepl(chesspatterns$pawn,piece) & grepl("2|7",startSquare) & grepl("4|5",endSquare)){
 			Col <- which(letters==strsplit(startSquare,"")[[1]][1]) # identify the column
 			if(color=="black"){phantomSquare <- paste(letters[Col],"6",sep="")}
 			if(color=="white"){phantomSquare <- paste(letters[Col],"3",sep="")}
@@ -105,7 +105,7 @@ newPosition <- function(new_pgn, startPosition=nrow(position)){
 	if(castle){
 		
 		# the moving pieces consist of a king and a rook: 
-		piece <- paste(kingPattern,rookPattern,sep="|")
+		piece <- paste(chesspatterns$king,chesspatterns$rook,sep="|")
 		
 		# use CSTL() to define the destination squares of the king and rook:
 		endSquare <- unlist(CSTL(new_pgn)[c("king","rook")])

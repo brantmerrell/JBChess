@@ -22,8 +22,6 @@ scrape.chess.com <- function(id,type = c("live","correspondence","open")){
 		DF2 <- data.frame(Link="NA", stringsAsFactors = F)
 	}
 	
-	# if(!exists("DF2")){DF2 <- data.frame(Link, stringsAsFactors = F)}
-	
 	if(grepl("live",type,ignore.case = T)){
 		Link <- file.path("https://www.chess.com/live/game",id)
 		DF3 <- scrape.live(live.link=Link)
@@ -65,16 +63,16 @@ if("--args" %in% ARGS){
 		for(n in ARGS[-1]){
 			DF <- weave.rbind(DF, scrape.chess.com(n))
 			print(n)
-		}
+		}; rm(DF, n)
 		# Test for my username in white
 		TEST <- "thinkboolean"==DF$White
 		# test for my username in black
 		TEST <- TEST | "thinkboolean"==DF$Black
 		# If my username ever occurs,
 		if(0<sum(TEST)){
-		# store subset of games
+		  # store subset of games
 			write.csv(x = DF[TEST,], row.names=F,
-					file = paste("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv", sep = ""))
+			          file = paste0("data/thinkboolean_", min(ARGS),"-",max(ARGS),"csv"))
 		}
 		# if there is no directory "data", make one
 		if(!file.exists("data")){dir.create("data")}
@@ -84,7 +82,6 @@ if("--args" %in% ARGS){
 				row.names=F)
 	}else{
 		print(paste("skipping", filename))
-	}
+	}; rm(TEST,filePattern, filename, Files)
 
-}
-
+};rm(ARGS)

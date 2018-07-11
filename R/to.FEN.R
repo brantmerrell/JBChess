@@ -11,10 +11,10 @@ to.FEN <- function(game_pgn){
 	string <- as.vector(as.matrix(position[game_pgn,ORD]))
 	string[is.na(string)] <- "1"
 	string[string==""] <- "1"
-	string[grepl(whitePattern,string)] <- toupper(string[grepl(whitePattern,string)])
-	string[grepl(blackPattern,string)] <- tolower(string[grepl(blackPattern,string)])
+	string[grepl(chesspatterns$white,string)] <- toupper(string[grepl(chesspatterns$white,string)])
+	string[grepl(chesspatterns$black,string)] <- tolower(string[grepl(chesspatterns$black,string)])
 	string <- gsub("WHITE |black ","",string)
-	string[grepl(knightPattern,string)] <- sub("[Kk]","",string[grepl(knightPattern,string)])
+	string[grepl(chesspatterns$knight,string)] <- sub("[Kk]","",string[grepl(chesspatterns$knight,string)])
 	string <- unlist(lapply(string, substr, start = 1, stop = 1))
 	string <- c(string[ c(1:8) ], "/", string[ c(9:16)], "/",
 							string[c(17:24)], "/", string[c(25:32)], "/",
@@ -31,7 +31,7 @@ to.FEN <- function(game_pgn){
 		n <- n + 1
 	}
 	string <- paste(string, collapse = "")
-	if(grepl(blackPattern, row.names(position[game_pgn,]))){
+	if(grepl(chesspatterns$black, row.names(position[game_pgn,]))){
 		string <- paste(string, "w")
 	}else{
 		string <- paste(string, "b")

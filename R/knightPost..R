@@ -1,5 +1,5 @@
 knightPost. <- function(square,game_pgn=nrow(position)){
-	if(!grepl(knightPattern,position[game_pgn,square])){stop("this piece is not a knight")}
+	if(!grepl(chesspatterns$knight,position[game_pgn,square])){stop("this piece is not a knight")}
 	Col <- which(letters==strsplit(square,"")[[1]][1]) # identify the column
 	Row <- as.numeric(strsplit(square,"")[[1]][2]) # identify the row
 	NRange <- function(center,dist){ # create 1-dim function for plus & minus board distance
@@ -12,8 +12,8 @@ knightPost. <- function(square,game_pgn=nrow(position)){
 								expand.grid(letters[NRange(Col,2)],NRange(Row,1))) # generate 2xCol and 1xRow
 	Path <- paste(Path[,1],Path[,2],sep="") # combine coordinates into squares
 	Test <- function(toSquare,fromSquare=square){
-		testPattern <- ifelse(grepl(blackPattern,position[game_pgn,fromSquare]),
-													whitePattern,blackPattern)
+		testPattern <- ifelse(grepl(chesspatterns$black,position[game_pgn,fromSquare]),
+													chesspatterns$white,chesspatterns$black)
 		testPattern <- paste(testPattern,"phantom",sep="|")
 		grepl(testPattern,position[game_pgn,toSquare]) |
 			is.na(position[game_pgn,toSquare])

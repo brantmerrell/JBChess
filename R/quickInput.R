@@ -6,7 +6,7 @@ quickInput <-	function (pgn) {
 		else {
 				move <- strsplit(lastRow, "_|\\.")[[1]]
 				move <- as.numeric(move[grepl("^\\d+$", move)])
-				if (grepl(blackPattern, lastRow)) {
+				if (grepl(chesspatterns$black, lastRow)) {
 						move <- move + 1
 				}
 		}

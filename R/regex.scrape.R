@@ -65,8 +65,8 @@ regex.scrape <- function(Link, type, errorMessage="unfound"){
 		if(type=="open"){
 				
 			# game notation matches the format n.rankOrFile?_piece?_capture?_square
-				pgnPattern <- "\\d\\.[[:blank:]]?([[:alnum:]])?[KQRNB]?x?[abcdefgh]\\d"
-				pgn <- Html[grep(pgnPattern,Html)]
+				chesspatterns$pgn <- "\\d\\.[[:blank:]]?([[:alnum:]])?[KQRNB]?x?[abcdefgh]\\d"
+				pgn <- Html[grep(chesspatterns$pgn,Html)]
 				if(length(pgn)!=0){
 					pgn <- paste(pgn[grep("^1",pgn)[1]:length(pgn)], collapse = " ")
 					pgn <- gsub("\\.[[:blank:]]",".",pgn)

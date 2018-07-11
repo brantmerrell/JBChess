@@ -9,10 +9,10 @@ CSTL <- function(X){
 		rookColumn <- "d"
 		rookVacant <- "a"
 	}
-	if(grepl(whitePattern,X)){
+	if(grepl(chesspatterns$white,X)){
 		Row <- 1
 	}
-	if(grepl(blackPattern,X)){
+	if(grepl(chesspatterns$black,X)){
 		Row <- 8
 	}
 	list(king=paste(kingColumn,Row,sep=""),

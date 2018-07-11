@@ -34,11 +34,11 @@ bishopPost. <- function(square,game_pgn){
 		
 		# store the color that the moving piece can capture
 		if(!is.na(fromColor)){
-			if(fromColor==whitePattern){colorPattern <- blackPattern}
-			if(fromColor==blackPattern){colorPattern <- whitePattern}
+			if(fromColor==chesspatterns$white){colorPattern <- chesspatterns$black}
+			if(fromColor==chesspatterns$black){colorPattern <- chesspatterns$white}
 			
 			# if the moving piece has no listed color, allow to capture either color
-		}else{colorPattern <- paste(whitePattern,blackPattern,sep="|")}
+		}else{colorPattern <- paste(chesspatterns$white,chesspatterns$black,sep="|")}
 		
 		# define the color of the destination square
 		toColor <- pieceColor(toSquare,game_pgn)

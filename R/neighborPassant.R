@@ -12,8 +12,8 @@ neighborPassant <- function(game_pgn=nrow(position)){
 	neighborSquare <- paste(neighborCol,Row,sep="")
 	neighborPiece <- position[game_pgn,neighborSquare]
 	arePawns <- grepl("pawn",piece) & grepl("pawn",neighborPiece)
-	diffColors <- (grepl(blackPattern,piece) & grepl(whitePattern,neighborPiece)) |
-	grepl(whitePattern,piece) & grepl(blackPattern, neighborPiece)
+	diffColors <- (grepl(chesspatterns$black,piece) & grepl(chesspatterns$white,neighborPiece)) |
+	grepl(chesspatterns$white,piece) & grepl(chesspatterns$black, neighborPiece)
 	passantRows <- grepl("[45]",square) & grepl("[45]",neighborSquare)
 	ifelse(F %in% c(arePawns, diffColors, passantRows),return(F),return(T))
 }
