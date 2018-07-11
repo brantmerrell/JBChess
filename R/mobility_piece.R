@@ -1,13 +1,125 @@
-onboard <- list(
-  pawn = function(square, game_pgn){
+mobility_piece <- function(square, position_vec=NULL, piece=NULL){
+  
+  # test position_vec and piece for null
+  TEST <- unlist(lapply(list(position_vec,piece), is.null))
+
+  # position_vec and piece should not both be NULL
+  if(sum(TEST) == 2) return(NULL)
+
+  # if position_vec is null, return mobility of piece on empty board
+  if(is.null(position_vec)){
+    Col <- which(letters==strsplit(square,"")[[1]][1]) # identify the column
+    Row <- as.numeric(strsplit(square,"")[[1]][2]) # identify the row
+    
+    # if the piece is a pawn:
+    if(grepl(chesspatterns$pawn,piece)){
+      
+      # if the pawn's color has not yet been defined, define it as nothing. Why?
+      if(!exists("color")){color <- ""}
+      
+      # if object "direction" already exists in environment, ignore it
+      if(exists("direction")) rm(direction)
+      
+      # if the pawn is black, it moves down the board:
+      if(grepl(chesspatterns$black,piece)){direction <- -1} 
+      
+      # if the pawn is white, it moves up the board:
+      if(grepl(chesspatterns$white,piece)){direction <- 1} 
+      
+      # if the pawn color is unspecified, return both directions
+      if(!exists("direction")){direction <- c(1,-1)}
+      
+      # create function generating attack columns:
+      PRange <- function(center){ 
+        
+        # attack columns are the current column plus & minus 1...
+        P <- c((center-1),(center+1)) 
+        
+        # ... minus any columns outside board boundaries
+        P[0<P & P<=8] 
+      }
+      
+      # generate pawn attack squares:
+      AttSq <- paste(letters[PRange(Col)],Row+direction,sep="")
+      
+      # determine whether pawn has option to move two spaces:
+      ifelse((direction==-1 & Row==7)|(direction==1 & Row==2),distance <- 1:2,distance <- 1)
+      
+      # generate squares to which the pawn can move without attacking:
+      Path <- paste(letters[Col],Row+(distance*direction),sep="") 
+      
+      # if two directions exist, add question marks
+      if(length(direction)==2) Path <- paste0(Path,"?")
+      
+      # return all squares to which the pawn can move on an empty board:
+      return(Path)
+    }
+    if(grepl(chesspatterns$bishop,piece)){ # check whether the piece is a bishop
+      B <- function(x){ # define a function that takes as input any row, 
+        V <- c(x+Col-Row,Col+Row-x) # already knows bishop location, 
+        paste(letters[x],V[0<V & V<=8],sep="") 
+        # and returns squares on that row where the bishop can move
+      }
+      Path <- unique(unlist(sapply(1:8,B))) # input all rows on the board
+    }
+    if(grepl(chesspatterns$knight,piece)){ # check whether the piece is a knight
+      NRange <- function(center,dist){ # create 1-dim function for plus & minus board distance
+        dist <- unique(c(dist,dist*-1)) # distance = plus and minus displacement
+        N <- expand.grid(center,dist) # combinations of center and displacements
+        N <- apply(N,1,sum) # add center and displacements for 1-d location
+        N[0<N & N<=8] # return only what exists within board boundaries
+      }
+      Path <- rbind(expand.grid(letters[NRange(Col,1)],NRange(Row,2)), # generate 1xCol and 2xRow
+                    expand.grid(letters[NRange(Col,2)],NRange(Row,1))) # generate 2xCol and 1xRow
+      Path <- paste(Path[,1],Path[,2],sep="") # combine coordinates into squares
+    }
+    if(grepl(chesspatterns$rook,piece)){ # check whether the piece is a rook
+      Path <- unique(c(paste(letters[Col],1:8,sep=""), # generate squares along column
+                       paste(letters[1:8],Row,sep=""))) # generate squares along row
+    }
+    if(grepl(chesspatterns$queen,piece)){ # check whether the piece is a Queen
+      # replicate bishop function:
+      B <- function(x){ 
+        V <- c(x+Col-Row,Col+Row-x) 
+        paste(letters[x],V[0<V & V<=8],sep="")
+      }
+      Path <- c(unique(unlist(sapply(1:8,B))), # generate diagonals
+                unique(c(paste(letters[Col],1:8,sep=""), # generate squares along column
+                         paste(letters[1:8],Row,sep="")))) # generate squares along row
+    }
+    if(grepl(chesspatterns$king,piece)){ # check whether the piece is a King
+      KRange <- function(center){ # create 1-dim function for plus to minus board distance (1) 
+        K <- (center-1):(center+1) # broaden center in two directions
+        K[0<K & K<=8] # return only results within board boundaries
+      }
+      Path <- expand.grid(letters[KRange(Col)], # generate all combinations of King's column range
+                          KRange(Row)) # generate all combinations of King's row range
+      Path <- paste(Path[,1],Path[,2],sep="") # combine coordinates into squares
+    }
+    return(Path[Path!=square]) # a piece can't move to the square on which it already resides!
+  }
+  
+  # if position_vec is a data frame, convert to a named vector
+  if(class(position_vec)=="data.frame"){
+    position_vec <- unlist(position_vec[nrow(position_vec),])
+  }
+  
+  # if position_vec is not named, throw error
+  if(is.null(names(position_vec))) { stop("position_vec must be named vector") }
+  
+  # obtain piece from position_vec & square
+  piece <- position_vec[square]
+  
+  # test whether piece is a pawn
+  if(grepl(chesspatterns$pawn,piece)){
     # specify direction for black pawns
-    if(grepl(chesspatterns$black,position[game_pgn,square])){direction <- -1}
+    if(grepl(chesspatterns$black,position_vec[square])){direction <- -1}
     
     # specify direction for white pawns
-    if(grepl(chesspatterns$white,position[game_pgn,square])){direction <- 1}
+    if(grepl(chesspatterns$white,position_vec[square])){direction <- 1}
     
     # specify double direction for unspecified pawns
-    if(!grepl(paste(chesspatterns$black,chesspatterns$white, sep="|"), position[game_pgn,square])){
+    if(!grepl(paste(chesspatterns$black,chesspatterns$white, sep="|"), position_vec[square])){
       direction <- c(1,-1)
     }
     
@@ -42,10 +154,10 @@ onboard <- list(
     AttTest <- function(AttSquare,fromSquare=square){
       
       # if the attacking and defending pieces are different colors... 
-      ifelse((grepl(chesspatterns$black,position[game_pgn,fromSquare]) & # black attacking pience & 
-                grepl(chesspatterns$white,position[game_pgn,AttSquare])) | # white defending piece OR
-               (grepl(chesspatterns$white,position[game_pgn,fromSquare]) & # white attacking piece & 
-                  grepl(chesspatterns$black,position[game_pgn,AttSquare])), # black defending piece
+      ifelse((grepl(chesspatterns$black,position_vec[fromSquare]) & # black attacking pience & 
+                grepl(chesspatterns$white,position_vec[AttSquare])) | # white defending piece OR
+               (grepl(chesspatterns$white,position_vec[fromSquare]) & # white attacking piece & 
+                  grepl(chesspatterns$black,position_vec[AttSquare])), # black defending piece
              # . . . return TRUE, otherwise FALSE
              T,F)
     }
@@ -54,7 +166,7 @@ onboard <- list(
     normTest <- function(normSquare,fromSquare=square){
       
       # create path to find out whether pawn would be required hop over or capture any pieces:
-      DF <- betweens(normSquare,fromSquare,game_pgn)
+      DF <- betweens(normSquare,fromSquare,position_vec)
       
       # remove pawn's current location from generated path:
       DF <- DF[DF$squares!=fromSquare,]
@@ -76,9 +188,9 @@ onboard <- list(
     ifelse(0<length(c(normSq,AttSq)),
            return(c(normSq,AttSq)),
            return(NA))
-  },
-  knight = function(square, game_pgn){
-    if(!grepl(chesspatterns$knight,position[game_pgn,square])){stop("this piece is not a knight")}
+  }
+  # test whether piece is a knight
+  if(grepl(chesspatterns$knight,piece)){
     Col <- which(letters==strsplit(square,"")[[1]][1]) # identify the column
     Row <- as.numeric(strsplit(square,"")[[1]][2]) # identify the row
     NRange <- function(center,dist){ # create 1-dim function for plus & minus board distance
@@ -91,15 +203,16 @@ onboard <- list(
                   expand.grid(letters[NRange(Col,2)],NRange(Row,1))) # generate 2xCol and 1xRow
     Path <- paste(Path[,1],Path[,2],sep="") # combine coordinates into squares
     Test <- function(toSquare,fromSquare=square){
-      testPattern <- ifelse(grepl(chesspatterns$black,position[game_pgn,fromSquare]),
+      testPattern <- ifelse(grepl(chesspatterns$black,position_vec[fromSquare]),
                             chesspatterns$white,chesspatterns$black)
       testPattern <- paste(testPattern,"phantom",sep="|")
-      grepl(testPattern,position[game_pgn,toSquare]) |
-        is.na(position[game_pgn,toSquare])
+      grepl(testPattern,position_vec[toSquare]) |
+        is.na(position_vec[toSquare])
     }
-    Path[unlist(lapply(Path,Test))]
-  },
-  bishop = function(square,game_pgn){
+    return(Path[unlist(lapply(Path,Test))])
+  }
+  # test whether piece is a bishop or queen (both require generating bishop mobility)
+  if(grepl(chesspatterns$bishop,piece) | grepl(chesspatterns$queen, piece)){
     # identify row and column:
     Col <- which(letters==strsplit(square,"")[[1]][1]) # identify the column
     Row <- as.numeric(strsplit(square,"")[[1]][2]) # identify the row
@@ -130,7 +243,7 @@ onboard <- list(
     Test <- function(toSquare,fromSquare=square){
       
       # isolate the color of moving piece
-      fromColor <- pieceColor(fromSquare,game_pgn)
+      fromColor <- pieceColor(fromSquare,position_vec)
       
       # store the color that the moving piece can capture
       if(!is.na(fromColor)){
@@ -141,13 +254,13 @@ onboard <- list(
       }else{colorPattern <- paste(chesspatterns$white,chesspatterns$black,sep="|")}
       
       # define the color of the destination square
-      toColor <- pieceColor(toSquare,game_pgn)
+      toColor <- pieceColor(toSquare,position_vec)
       
       # if the destination square is a phantom pawn, set its color as NA
-      if(grepl("phantom",position[game_pgn,toSquare])){toColor <- NA}
+      if(grepl("phantom",position_vec[toSquare])){toColor <- NA}
       
       # map out pieces and squares between starting square and destination square
-      DF <- betweens(toSquare,fromSquare,game_pgn)
+      DF <- betweens(toSquare,fromSquare,position_vec)
       
       # test whether 'between squares' are vacant by taking the sum of vacant squares,
       T1 <- (sum(is.na(DF$occupants[
@@ -171,9 +284,11 @@ onboard <- list(
       # summarize whether moving piece can travel to and arrive on destination 
       T1 & (T2a | T2b)
     }
-    Path[unlist(lapply(Path,Test))]
-  },
-  rook = function(square, game_pgn){
+    B <- Path[unlist(lapply(Path,Test))]
+    if(grepl(chesspatterns$bishop, piece)) return(B)
+  }
+  # test whether piece is a rook (both require generating rook mobility)
+  if(grepl(chesspatterns$rook,piece) | grepl(chesspatterns$queen, piece)){
     # isolate column and rows of square
     Col <- which(letters==strsplit(square,"")[[1]][1]) 
     Row <- as.numeric(strsplit(square,"")[[1]][2])
@@ -188,7 +303,7 @@ onboard <- list(
     Test <- function(toSquare,fromSquare=square){
       
       # determine the color of the moving piece
-      fromColor <- pieceColor(fromSquare,game_pgn)
+      fromColor <- pieceColor(fromSquare,position_vec)
       
       # store the color that can be captured by moving piece
       if(!is.na(fromColor)){
@@ -199,13 +314,13 @@ onboard <- list(
       }else{colorPattern <- chesspatterns$black}
       
       # define the color of the destination square
-      toColor <- pieceColor(toSquare,game_pgn)
+      toColor <- pieceColor(toSquare,position_vec)
       
       # if the destination square is a phantom pawn, set its color as NA
-      if(grepl("phantom",position[game_pgn,toSquare])){toColor <- NA}
+      if(grepl("phantom",position_vec[toSquare])){toColor <- NA}
       
       # map out squares and pieces between start and destination squares
-      DF <- betweens(toSquare,fromSquare,game_pgn)
+      DF <- betweens(toSquare,fromSquare,position_vec)
       
       # test whether squares between start and destination are clear:
       T1 <- (sum(is.na(DF$occupants[
@@ -229,14 +344,15 @@ onboard <- list(
       # summarize whether moving piece can travel to and arrive on destination 
       T1 & (T2a | T2b)
     }
-    Path[unlist(lapply(Path,Test))]
-  },
-  queen = function(square, game_pgn){
-    R <- onboard$rook(square,game_pgn)
-    B <- onboard$bishop(square,game_pgn)
-    sort(c(R,B))
-  },
-  king = function(square, game_pgn){
+    R <- Path[unlist(lapply(Path,Test))]
+    if(grepl(chesspatterns$rook,piece)) return(R)
+  }
+  # test whether piece is a queen
+  if(grepl(chesspatterns$queen,piece)){
+    return(c(R,B))
+  }
+  # test whether piece is a king
+  if(grepl(chesspatterns$king,piece)){
     Col <- which(letters==strsplit(square,"")[[1]][1]) # identify the column
     Row <- as.numeric(strsplit(square,"")[[1]][2]) # identify the row
     KRange <- function(center=5){
@@ -247,17 +363,17 @@ onboard <- list(
     Path <- paste(Path[,1],Path[,2],sep="")
     Path[Path!=square]
     Test <- function(toSquare,fromSquare=square){
-      fromColor <- pieceColor(fromSquare,game_pgn)
+      fromColor <- pieceColor(fromSquare,position_vec)
       if(!is.na(fromColor)){
         if(fromColor==chesspatterns$white){colorPattern <- chesspatterns$black}
         if(fromColor==chesspatterns$black){colorPattern <- chesspatterns$white}
       }else{colorPattern <- chesspatterns$black}
-      toColor <- pieceColor(toSquare,game_pgn)
-      grepl(colorPattern,position[game_pgn,toSquare]) |
-        is.na(position[game_pgn,toSquare]) |
-        grepl("phantom", position[game_pgn,toSquare])
+      toColor <- pieceColor(toSquare,position_vec)
+      grepl(colorPattern,position_vec[toSquare]) |
+        is.na(position_vec[toSquare]) |
+        grepl("phantom", position_vec[toSquare])
     }
     Path <- Path[unlist(lapply(Path,Test))]
-    Path[Path!=square]
+    return(Path[Path!=square])
   }
-)
+}

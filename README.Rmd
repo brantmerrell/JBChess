@@ -19,11 +19,6 @@ output:
   * __pathPrior__: planning to change the name to _theoretical mobility_. Lists the squares a piece can move on an empty chessboard.  
   * __Post functions__: planning to change the name to _ingame_ functions. They were named for _aposteriori_, and they list the squares to which a piece can move from a given position.  
 
-**Setup**
-```{r setup}
-invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
-```
-
 # Data Acquisition
 **Bash-managed scraping**
 ```{r bash-scrape, engine="bash", eval=F}
@@ -50,34 +45,38 @@ done
 ```
 
 # Exploration of Functions
-**pathPrior**
-```{r pathPrior}
-pathPrior(piece = "bishop", square = "e5")
-pathPrior(piece = "knight", square = "e5")
-pathPrior(piece = "black pawn", square = "e5")
-pathPrior(piece = "white pawn", square = "e5")
+**Setup**
+```{r setup}
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
 ```
-**position object**
-```{r position}
-position <- setup()
-row.names(position)
-colnames(position)
-```
-**pathPost**
-```{r pathPost}
-ls(pattern = ".Post")
-onboard$pawn(square = "a7", game_pgn = 2)
-onboard$bishop(square = "c8", game_pgn = 2)
-onboard$knight(square = "b8", game_pgn = 2)
-onboard$rook(square = "h8", game_pgn = 2)
-onboard$queen(square = "d1", game_pgn = 2)
-onboard$king(square = "e8", game_pgn = 2)
-# mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
+
+**The mobility_piece function**
+```{r mobility_piece}
+# if position_vec is not passed as an input, 
+# it is assumed that no other pieces are on the board
+mobility_piece(piece = "bishop", square = "e5")
+
+# if board is empty, specified piece is not on specified square:
+mobility_piece(piece = "white pawn", square = "a2", position_vec = empty())
+
+# white pawns travel up and black pawns travel down
+mobility_piece(piece = "black pawn", square = "e5")
+mobility_piece(piece = "white pawn", square = "e5")
+
+# pawns of unspecified color might go either direction
+mobility_piece(piece = "pawn", square = "e5")
+
+# mobility_piece() piece type from position_vec & square:
+mobility_piece(square = "a2", position_vec = setup(includeEmpty = F)[1,])
+
+# if piece input conflicts with square & position_vec inputs, it is overriden:
+mobility_piece(square = "a2", 
+               position_vec = setup(includeEmpty = F)[1,], 
+               piece = "white rook")
 ```
 **compare post & prior**
-```{r post-prior, eval=F}
-pathPrior(piece = "knight", square = "b1")
-pathPost.(square = "b1", game_pgn = "000_zero")
+```{r mobility_board, eval=T}
+mobility_board(position_vec = setup())
 ```
 
 Because of the game_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.

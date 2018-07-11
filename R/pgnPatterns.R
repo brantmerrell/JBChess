@@ -5,7 +5,7 @@ chesspatterns <- list(
   castle = "[Cc][Aa][Ss][Tt][Ll][Ee]|O-O",
   castleQ = "[Cc][Aa][Ss][Tt][Ll][Ee]|O-O-O",
   checkmate = "#",
-  check = "+",
+  check = "\\+",
   king = "[Kk][Ii][Nn][Gg]|(^\\d+\\.+Kx?([[:lower:]]\\d)+$)",
   knight = "[Kk][Nn][Ii][Gg][Hh][Tt]|(\\d+\\.+N([[:lower:]]|\\d)?x?[[:lower:]]\\d(#|\\+)?$)",
   pawn = "[Pp][Aa][Ww][Nn]|(\\d+\\.+[[:lower:]]?x?([[:lower:]]\\d)+$)",

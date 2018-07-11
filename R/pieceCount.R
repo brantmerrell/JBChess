@@ -1,18 +1,19 @@
-pieceCount <- function(game_pgn=nrow(position)){
+pieceCount <- function(position_vec){
 	
 	# identify which part of the board is occupied
-	Col <- !apply(position[game_pgn,],2,is.na)
+	Col <- !is.na(position_vec)
+	Col <- Col & ""!=position_vec
 	
 	# identify the pieces on the occupied portion of the
 	
 	if(!sum(Col)==1){
-		square <- colnames(position)[Col]
-		piece <- as.character(as.matrix(position[game_pgn,Col]))
-		DF <- data.frame(square=colnames(position[game_pgn,Col]),
-										 piece=as.character(as.matrix(position[game_pgn,Col])),
+		square <- names(position_vec)[Col]
+		piece <- position_vec[Col]
+		DF <- data.frame(square=names(position_vec[Col]),
+										 piece=as.character(as.matrix(position_vec[Col])),
 										 stringsAsFactors = F)
 	}else{
-		DF <- data.frame(square=colnames(position[game_pgn,Col]),
+		DF <- data.frame(square=names(position_vec[Col]),
 										 piece=piece, 
 										 stringsAsFactors = F)
 	}

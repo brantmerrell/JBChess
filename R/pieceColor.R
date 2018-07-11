@@ -1,6 +1,6 @@
-pieceColor <- function(square="a1",game_pgn=2){
+pieceColor <- function(square, position_vec){
 	patternVec <- c(chesspatterns$black,chesspatterns$white)
-	patternTest <- unlist(lapply(patternVec, grepl, x = position[game_pgn,square]))
+	patternTest <- unlist(lapply(patternVec, grepl, x = position_vec[square]))
 	ifelse(sum(patternTest)==0, return(NA), 
 				 return(patternVec[patternTest]))
 }

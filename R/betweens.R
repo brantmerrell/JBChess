@@ -4,7 +4,7 @@
 
 # It uses the stop function when it receives incompatible inputs, so should rarely be called manually.
 
-betweens <- function(square1,square2,game_pgn){
+betweens <- function(square1,square2,position_vec){
 	Col1 <- which(letters==strsplit(square1,"")[[1]][1]) # convert square's column letter to a number
 	Row1 <- as.numeric(strsplit(square1,"")[[1]][2]) # extract square's row number
 	Col2 <- which(letters==strsplit(square2,"")[[1]][1]) # convert square2 column letter to a number
@@ -16,5 +16,5 @@ betweens <- function(square1,square2,game_pgn){
 	}
 	btwns <- paste(letters[Col1:Col2],Row1:Row2,sep="") #list squares between the squares
 	return(data.frame(squares=btwns,
-										occupants=as.character(position[game_pgn,btwns]))) #retrieve occupants
+										occupants=as.character(position_vec[btwns]))) #retrieve occupants
 }
