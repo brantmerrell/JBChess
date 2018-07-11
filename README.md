@@ -22,14 +22,6 @@ Introduction
 -   **pathPrior**: planning to change the name to *theoretical mobility*. Lists the squares a piece can move on an empty chessboard.
 -   **Post functions**: planning to change the name to *ingame* functions. They were named for *aposteriori*, and they list the squares to which a piece can move from a given position.
 
-**Setup**
-
-``` r
-invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
-```
-
-    ## Loading required package: jsonlite
-
 Data Acquisition
 ================
 
@@ -61,105 +53,69 @@ done
 Exploration of Functions
 ========================
 
-**pathPrior**
+**Setup**
 
 ``` r
-pathPrior(piece = "bishop", square = "e5")
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
+```
+
+**The mobility\_piece function**
+
+``` r
+# if position_vec is not passed as an input, 
+# it is assumed that no other pieces are on the board
+mobility_piece(piece = "bishop", square = "e5")
 ```
 
     ##  [1] "a1" "b2" "b8" "c3" "c7" "d4" "d6" "f6" "f4" "g7" "g3" "h8" "h2"
 
 ``` r
-pathPrior(piece = "knight", square = "e5")
+# if board is empty, specified piece is not on specified square:
+mobility_piece(piece = "white pawn", square = "a2", position_vec = empty())
+
+# white pawns travel up and black pawns travel down
+mobility_piece(piece = "black pawn", square = "e5")
 ```
 
-    ## [1] "f7" "d7" "f3" "d3" "g6" "c6" "g4" "c4"
+    ## [1] "e4"
 
 ``` r
-pathPrior(piece = "black pawn", square = "e5")
+mobility_piece(piece = "white pawn", square = "e5")
 ```
 
-    ## [1] "e4" "d4" "f4"
+    ## [1] "e6"
 
 ``` r
-pathPrior(piece = "white pawn", square = "e5")
+# pawns of unspecified color might go either direction
+mobility_piece(piece = "pawn", square = "e5")
 ```
 
-    ## [1] "e6" "d6" "f6"
-
-**position object**
+    ## [1] "e6?" "e4?"
 
 ``` r
-position <- setup()
-row.names(position)
+# mobility_piece() piece type from position_vec & square:
+mobility_piece(square = "a2", position_vec = setup(includeEmpty = F)[1,])
 ```
 
-    ## [1] "000_empty" "000_zero"
+    ## [1] "a3" "a4"
 
 ``` r
-colnames(position)
+# if piece input conflicts with square & position_vec inputs, it is overriden:
+mobility_piece(square = "a2", 
+               position_vec = setup(includeEmpty = F)[1,], 
+               piece = "white rook")
 ```
 
-    ##  [1] "a8" "a7" "a6" "a5" "a4" "a3" "a2" "a1" "b8" "b7" "b6" "b5" "b4" "b3"
-    ## [15] "b2" "b1" "c8" "c7" "c6" "c5" "c4" "c3" "c2" "c1" "d8" "d7" "d6" "d5"
-    ## [29] "d4" "d3" "d2" "d1" "e8" "e7" "e6" "e5" "e4" "e3" "e2" "e1" "f8" "f7"
-    ## [43] "f6" "f5" "f4" "f3" "f2" "f1" "g8" "g7" "g6" "g5" "g4" "g3" "g2" "g1"
-    ## [57] "h8" "h7" "h6" "h5" "h4" "h3" "h2" "h1"
-
-**pathPost**
-
-``` r
-ls(pattern = ".Post")
-```
-
-    ## [1] "kingPost."    "knightPost."  "mobilityPost" "piecePost."
-
-``` r
-onboard$pawn(square = "a7", game_pgn = 2)
-```
-
-    ## [1] "a6" "a5"
-
-``` r
-onboard$bishop(square = "c8", game_pgn = 2)
-```
-
-    ## character(0)
-
-``` r
-onboard$knight(square = "b8", game_pgn = 2)
-```
-
-    ## [1] "c6" "a6"
-
-``` r
-onboard$rook(square = "h8", game_pgn = 2)
-```
-
-    ## character(0)
-
-``` r
-onboard$queen(square = "d1", game_pgn = 2)
-```
-
-    ## character(0)
-
-``` r
-onboard$king(square = "e8", game_pgn = 2)
-```
-
-    ## character(0)
-
-``` r
-# mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
-```
+    ## [1] "a3" "a4"
 
 **compare post & prior**
 
 ``` r
-pathPrior(piece = "knight", square = "b1")
-pathPost.(square = "b1", game_pgn = "000_zero")
+mobility_board(position_vec = setup())
 ```
+
+    ## total white black 
+    ##    40    20    20
 
 Because of the game\_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.
 
