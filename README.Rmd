@@ -6,20 +6,22 @@ output:
     toc: true
 ---
 # Introduction
+
 **Terminology**  
-  * __game data__
-  * __positional data__
-  * __PGN format__
-  * __FEN format__
-  * __matrix format__
-  * __tidy format__
-  * __positional mobility__
-  * __pathPrior__: planning to change the name to _theoretical mobility_. Lists the squares a piece can move on an empty chessboard.
-  * __Post functions__: planning to change the name to _ingame_ functions. They were named for _aposteriori_, and they list the squares to which a piece can move from a given position.
+
+  * __game data__  
+  * __positional data__  
+  * __PGN format__  
+  * __FEN format__  
+  * __matrix format__  
+  * __tidy format__  
+  * __positional mobility__  
+  * __pathPrior__: planning to change the name to _theoretical mobility_. Lists the squares a piece can move on an empty chessboard.  
+  * __Post functions__: planning to change the name to _ingame_ functions. They were named for _aposteriori_, and they list the squares to which a piece can move from a given position.  
 
 **Setup**
 ```{r setup}
-invisible(lapply(list.files("R", full.names = T), source))
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
 ```
 
 # Data Acquisition
@@ -64,13 +66,13 @@ colnames(position)
 **pathPost**
 ```{r pathPost}
 ls(pattern = ".Post")
-pawnPost.(square = "a7", game_pgn = 2)
-bishopPost.(square = "c8", game_pgn = 2)
-knightPost.(square = "b8", game_pgn = 2)
-rookPost.(square = "h8", game_pgn = 2)
-queenPost.(square = "d1", game_pgn = 2)
-kingPost.(square = "e8", game_pgn = 2)
-mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
+onboard$pawn(square = "a7", game_pgn = 2)
+onboard$bishop(square = "c8", game_pgn = 2)
+onboard$knight(square = "b8", game_pgn = 2)
+onboard$rook(square = "h8", game_pgn = 2)
+onboard$queen(square = "d1", game_pgn = 2)
+onboard$king(square = "e8", game_pgn = 2)
+# mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
 ```
 **compare post & prior**
 ```{r post-prior, eval=F}

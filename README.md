@@ -11,12 +11,21 @@ Introduction
 ============
 
 **Terminology**
-\* **game data** \* **positional data** \* **PGN format** \* **FEN format** \* **matrix format** \* **tidy format** \* **positional mobility** \* **pathPrior**: planning to change the name to *theoretical mobility*. Lists the squares a piece can move on an empty chessboard. \* **Post functions**: planning to change the name to *ingame* functions. They were named for *aposteriori*, and they list the squares to which a piece can move from a given position.
+
+-   **game data**
+-   **positional data**
+-   **PGN format**
+-   **FEN format**
+-   **matrix format**
+-   **tidy format**
+-   **positional mobility**
+-   **pathPrior**: planning to change the name to *theoretical mobility*. Lists the squares a piece can move on an empty chessboard.
+-   **Post functions**: planning to change the name to *ingame* functions. They were named for *aposteriori*, and they list the squares to which a piece can move from a given position.
 
 **Setup**
 
 ``` r
-invisible(lapply(list.files("R", full.names = T), source))
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
 ```
 
     ## Loading required package: jsonlite
@@ -103,51 +112,47 @@ colnames(position)
 ls(pattern = ".Post")
 ```
 
-    ## [1] "bishopPost."  "kingPost."    "knightPost."  "mobilityPost"
-    ## [5] "pawnPost."    "piecePost."   "queenPost."   "rookPost."
+    ## [1] "kingPost."    "knightPost."  "mobilityPost" "piecePost."
 
 ``` r
-pawnPost.(square = "a7", game_pgn = 2)
+onboard$pawn(square = "a7", game_pgn = 2)
 ```
 
     ## [1] "a6" "a5"
 
 ``` r
-bishopPost.(square = "c8", game_pgn = 2)
+onboard$bishop(square = "c8", game_pgn = 2)
 ```
 
     ## character(0)
 
 ``` r
-knightPost.(square = "b8", game_pgn = 2)
+onboard$knight(square = "b8", game_pgn = 2)
 ```
 
     ## [1] "c6" "a6"
 
 ``` r
-rookPost.(square = "h8", game_pgn = 2)
+onboard$rook(square = "h8", game_pgn = 2)
 ```
 
     ## character(0)
 
 ``` r
-queenPost.(square = "d1", game_pgn = 2)
+onboard$queen(square = "d1", game_pgn = 2)
 ```
 
     ## character(0)
 
 ``` r
-kingPost.(square = "e8", game_pgn = 2)
+onboard$king(square = "e8", game_pgn = 2)
 ```
 
     ## character(0)
 
 ``` r
-mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
+# mobilityPost(game_pgn = 2, piecePattern = chesspatterns$knight)
 ```
-
-    ##          white black
-    ## 000_zero     4     4
 
 **compare post & prior**
 

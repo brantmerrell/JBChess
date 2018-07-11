@@ -1,4 +1,4 @@
-require(jsonlite)#; require(RJSONIO)
+invisible(require(jsonlite))
 scrape.live <- function(live.link=NULL, id=NULL){
 	# if id is not provided, extract from link
 	if(length(id)!=1){
