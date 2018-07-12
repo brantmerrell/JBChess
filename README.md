@@ -3,9 +3,8 @@ tidychess
 Josh Merrell
 
 -   [Introduction](#introduction)
--   [Data Acquisition](#data-acquisition)
 -   [Exploration of Functions](#exploration-of-functions)
--   [Exploration of Chessboards](#exploration-of-chessboards)
+-   [Chess Data](#chess-data)
 
 Introduction
 ============
@@ -21,34 +20,6 @@ Introduction
 -   **positional mobility**
 -   **pathPrior**: planning to change the name to *theoretical mobility*. Lists the squares a piece can move on an empty chessboard.
 -   **Post functions**: planning to change the name to *ingame* functions. They were named for *aposteriori*, and they list the squares to which a piece can move from a given position.
-
-Data Acquisition
-================
-
-**Bash-managed scraping**
-
-``` bash
-#!/bin/bash
-# obtain list of previously stored data to avoid duplication
-aws s3 ls s3://jbchess/data --recursive > temp.txt
-
-# iterate through a range of numbers
-for n in $(seq 200 1000)
-do
-
-  # adjust both numbers to the proper order of magnitude
-    first=$(($n*1000+1))
-    last=$(($n*1000+1000))
-    # record the beginning & ending range of numbers; include a timestamp
-    echo start $first $last $(date)
-    
-    # pass the range of numbers to the scrape.chess.com function
-    Rscript R/scrape.chess.com.R $first $last
-    
-    # move the acquired data to the bucket
-    aws s3 mv data s3://jbchess/data --recursive
-done
-```
 
 Exploration of Functions
 ========================
@@ -117,19 +88,79 @@ mobility_board(position_vec = setup())
     ## total white black 
     ##    40    20    20
 
-Because of the game\_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.
-
 ``` r
-for(n in 1:nrow(moves)){
-  pgn <- paste("xmpl1",
-               as.vector(moves[n,"pgn"]),
-               sep="_")
-  if(!pgn %in% row.names(position)){
-    position<-rbind(position, newPosition(new_pgn = pgn))
-  }
-}
-rownames(position)
+patterns <- c("white bishops" = "white bishop",
+              "black knights"="black knight",
+              "pawns"="pawn")
+pieces <- unique(unlist(setup()[2,]));  pieces <- pieces[!is.na(pieces)]
+mobility_board(position_vec = setup(), patterns = patterns)
 ```
 
-Exploration of Chessboards
-==========================
+    ##         total white bishops black knights         pawns 
+    ##            40             0             4            32
+
+``` r
+mobility_board(position_vec = setup(), patterns = pieces)
+```
+
+    ##        total   black Rook   black pawn   white pawn   white Rook 
+    ##           40            0           16           16            0 
+    ## black Knight white Knight black Bishop white Bishop  black Queen 
+    ##            4            4            0            0            0 
+    ##  white Queen   black King   white King 
+    ##            0            0            0
+
+``` r
+rm(patterns, pieces)
+```
+
+**new\_position**
+
+``` r
+positions <- setup()
+positions <- rbind(positions, new_position(new_pgn = "1.e3",
+                                           position_vec = positions))
+positions[,c("e2","e3")]
+rm(positions)
+```
+
+**to.FEN**
+
+``` r
+to.FEN(setup()[1,])
+```
+
+Chess Data
+==========
+
+**Bash-managed scraping**
+
+``` bash
+#!/bin/bash
+# obtain list of previously stored data to avoid duplication
+aws s3 ls s3://jbchess/data --recursive > temp.txt
+
+# iterate through a range of numbers
+for n in $(seq 200 1000)
+do
+
+  # adjust both numbers to the proper order of magnitude
+    first=$(($n*1000+1))
+    last=$(($n*1000+1000))
+    # record the beginning & ending range of numbers; include a timestamp
+    echo start $first $last $(date)
+    
+    # pass the range of numbers to the scrape.chess.com function
+    Rscript R/scrape.chess.com.R $first $last
+    
+    # move the acquired data to the bucket
+    aws s3 mv data s3://jbchess/data --recursive
+done
+```
+
+**acquire sample of chess data**
+
+``` bash
+# use the shell to extract sample of chess games:
+aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-1000.csv"
+```

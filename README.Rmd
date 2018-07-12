@@ -19,30 +19,6 @@ output:
   * __pathPrior__: planning to change the name to _theoretical mobility_. Lists the squares a piece can move on an empty chessboard.  
   * __Post functions__: planning to change the name to _ingame_ functions. They were named for _aposteriori_, and they list the squares to which a piece can move from a given position.  
 
-# Data Acquisition
-**Bash-managed scraping**
-```{r bash-scrape, engine="bash", eval=F}
-#!/bin/bash
-# obtain list of previously stored data to avoid duplication
-aws s3 ls s3://jbchess/data --recursive > temp.txt
-
-# iterate through a range of numbers
-for n in $(seq 200 1000)
-do
-
-  # adjust both numbers to the proper order of magnitude
-	first=$(($n*1000+1))
-	last=$(($n*1000+1000))
-	# record the beginning & ending range of numbers; include a timestamp
-	echo start $first $last $(date)
-	
-	# pass the range of numbers to the scrape.chess.com function
-	Rscript R/scrape.chess.com.R $first $last
-	
-	# move the acquired data to the bucket
-	aws s3 mv data s3://jbchess/data --recursive
-done
-```
 
 # Exploration of Functions
 **Setup**
@@ -77,19 +53,58 @@ mobility_piece(square = "a2",
 **compare post & prior**
 ```{r mobility_board, eval=T}
 mobility_board(position_vec = setup())
+patterns <- c("white bishops" = "white bishop",
+              "black knights"="black knight",
+              "pawns"="pawn")
+pieces <- unique(unlist(setup()[2,]));  pieces <- pieces[!is.na(pieces)]
+mobility_board(position_vec = setup(), patterns = patterns)
+mobility_board(position_vec = setup(), patterns = pieces)
+rm(patterns, pieces)
 ```
 
-Because of the game_pgn input, *pathPost.* knows that the piece on h2 is a white knight, and that it cannot move to **d2** because that space is occupied by another pawn.
+**new_position**
+```{r new_position, eval=F}
+positions <- setup()
+positions <- rbind(positions, new_position(new_pgn = "1.e3",
+                                           position_vec = positions))
+positions[,c("e2","e3")]
+rm(positions)
+```
+
+**to.FEN**
 ```{r, eval=F}
-for(n in 1:nrow(moves)){
-  pgn <- paste("xmpl1",
-               as.vector(moves[n,"pgn"]),
-               sep="_")
-  if(!pgn %in% row.names(position)){
-    position<-rbind(position, newPosition(new_pgn = pgn))
-  }
-}
-rownames(position)
+to.FEN(setup()[1,])
 ```
 
-# Exploration of Chessboards
+# Chess Data
+**Bash-managed scraping**
+```{r bash-scrape, engine="bash", eval=F}
+#!/bin/bash
+# obtain list of previously stored data to avoid duplication
+aws s3 ls s3://jbchess/data --recursive > temp.txt
+
+# iterate through a range of numbers
+for n in $(seq 200 1000)
+do
+
+  # adjust both numbers to the proper order of magnitude
+	first=$(($n*1000+1))
+	last=$(($n*1000+1000))
+	# record the beginning & ending range of numbers; include a timestamp
+	echo start $first $last $(date)
+	
+	# pass the range of numbers to the scrape.chess.com function
+	Rscript R/scrape.chess.com.R $first $last
+	
+	# move the acquired data to the bucket
+	aws s3 mv data s3://jbchess/data --recursive
+done
+```
+
+**acquire sample of chess data**
+```{r, engine="bash", eval=F}
+# use the shell to extract sample of chess games:
+aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-1000.csv"
+```
+
+
