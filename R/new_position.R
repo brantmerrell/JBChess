@@ -73,7 +73,8 @@ new_position <- function(new_pgn, position_vec){
 		
 		# define the rowname of the new position as the new input pgn:
 		newPosition <- data.frame(matrix(newPosition, nrow = 1, 
-		                                 dimnames = list(new_pgn,names(newPosition))))
+		                                 dimnames = list(new_pgn,names(newPosition))),
+		                          stringsAsFactors = F)
 		# names(newPosition) <- new_pgn
 		
 		# remove the moving piece from its starting point:
@@ -95,9 +96,9 @@ new_position <- function(new_pgn, position_vec){
 		}
 		
 		# detect and remove any phantom pawns, because they only exist for one move:
-		phanP <- !is.na(newPosition) & grepl("phanton",newPosition)
+		phanP <- !is.na(newPosition) & grepl("phantom",newPosition)
 		# phanP <- unlist(lapply(newPosition,grepl,pattern="phantom"))
-		newPosition[phanP] <- NA
+		newPosition[phanP & !is.na(newPosition)] <- NA
 		
 		# if piece was a pawn and it moved two spaces, create 'phantom pawn' for potential en passant
 		if(grepl(chesspatterns$pawn,piece) & grepl("2|7",startSquare) & grepl("4|5",endSquare)){

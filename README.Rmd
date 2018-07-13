@@ -110,21 +110,22 @@ aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-100
 **build data frame of chess positions**
 ```{r positional data}
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
-DATA <- DATA[grepl(".",DATA$pgn),]
-DATA[1,]
+DFSummary(DATA)
 positions <- setup()
 pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
 pgn <- pgn[-length(pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(elem_p in pgn){
+for(n in 1:22){
   positions <- rbind(positions,
-                     new_position(elem_p, positions))
-}
+                     new_position(pgn[n], positions))
+  rows <- nrow(positions)-(1:0)
+  cols <- !(is.na(positions[rows[1],])==is.na(positions[rows[2],]))
+  print(positions[rows, cols])
+}#; rm(n, rows, cols)
 apply(positions[-1,], 1, mobility_board, 
       patterns = c(white="white", black="black", pawns="pawn", 
                    knights="knight", bishops="bishop", rooks="rook", 
                    queens="queen", kings="king"))
 ```
-ISSUE: phantom black pawn not being deleted
