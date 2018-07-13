@@ -1,6 +1,9 @@
-to.FEN <- function(game_pgn){
-	enPassant <- grepl("phantom",position[game_pgn,], ignore.case = T)
-	enPassant <- colnames(position)[enPassant]
+to.FEN <- function(position_vec, pgn_history){
+  if(class(position_vec)=="data.frame"){
+    position_vec <- unlist(position_vec[nrow(position_vec),])
+  }
+	enPassant <- grepl("phantom", position_vec, ignore.case = T)
+	enPassant <- names(position_vec)[enPassant]
 	if(length(enPassant)==0){enPassant <- "-"}
 	ORD <- rep(letters[1:8],8)
 	for(n in 1:8){
@@ -8,7 +11,7 @@ to.FEN <- function(game_pgn){
 		ORD[(m-7):m] <- paste(ORD[m:(m-7)], n, sep = "")
 	}
 	ORD <- rev(ORD)
-	string <- as.vector(as.matrix(position[game_pgn,ORD]))
+	string <- as.vector(position_vec[ORD])
 	string[is.na(string)] <- "1"
 	string[string==""] <- "1"
 	string[grepl(chesspatterns$white,string)] <- toupper(string[grepl(chesspatterns$white,string)])
@@ -31,27 +34,22 @@ to.FEN <- function(game_pgn){
 		n <- n + 1
 	}
 	string <- paste(string, collapse = "")
-	if(grepl(chesspatterns$black, row.names(position[game_pgn,]))){
+	if(grepl(chesspatterns$black, pgn_history[length(pgn_history)])){
 		string <- paste(string, "w")
 	}else{
 		string <- paste(string, "b")
 	}
-	game <- row.names(position[game_pgn,])
-	game <- strsplit(game,"_")[[1]][1]
-	game <- paste(game,"_", sep = "")
-	game <- grep(game,row.names(position))
-	game <- game[game<=which(row.names(position)==row.names(position[game_pgn,]))]
 	tests <- rep(NA, 4)
 	names(tests) <- c("K", "Q", "k", "q")
-	temp <- unique(as.vector(as.matrix(position[game,c("a1","e1")])))
-	tests["K"] <- length(temp)==2
-	temp <- unique(as.vector(as.matrix(position[game,c("h1","e1")])))
-	tests["Q"] <- length(temp)==2
-	temp <- unique(as.vector(as.matrix(position[game,c("a8","e8")])))
-	tests["k"] <- length(temp)==2
-	temp <- unique(as.vector(as.matrix(position[game,c("h8","e8")])))
-	tests["q"] <- length(temp)==2
-	tests <- tests[tests]
+	# temp <- unique(as.vector(as.matrix(position[game,c("a1","e1")])))
+	# tests["K"] <- length(temp)==2
+	# temp <- unique(as.vector(as.matrix(position[game,c("h1","e1")])))
+	# tests["Q"] <- length(temp)==2
+	# temp <- unique(as.vector(as.matrix(position[game,c("a8","e8")])))
+	# tests["k"] <- length(temp)==2
+	# temp <- unique(as.vector(as.matrix(position[game,c("h8","e8")])))
+	# tests["q"] <- length(temp)==2
+	# tests <- tests[tests]
 	if(length(tests)==0){
 		tests <- "-"
 	}else{

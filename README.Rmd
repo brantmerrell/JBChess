@@ -72,7 +72,7 @@ rm(positions)
 ```
 
 **to.FEN**
-```{r, eval=F}
+```{r to.FEN, eval=F}
 to.FEN(setup()[1,])
 ```
 
@@ -102,9 +102,29 @@ done
 ```
 
 **acquire sample of chess data**
-```{r, engine="bash", eval=F}
+```{r s3-retrieve, engine="bash", eval=F}
 # use the shell to extract sample of chess games:
 aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-1000.csv"
 ```
 
-
+**build data frame of chess positions**
+```{r positional data}
+DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
+DATA <- DATA[grepl(".",DATA$pgn),]
+DATA[1,]
+positions <- setup()
+pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
+pgn <- pgn[-length(pgn)]
+pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
+                                    "...",
+                                    pgn[seq(2,length(pgn),2)])
+for(elem_p in pgn){
+  positions <- rbind(positions,
+                     new_position(elem_p, positions))
+}
+apply(positions[-1,], 1, mobility_board, 
+      patterns = c(white="white", black="black", pawns="pawn", 
+                   knights="knight", bishops="bishop", rooks="rook", 
+                   queens="queen", kings="king"))
+```
+ISSUE: phantom black pawn not being deleted
