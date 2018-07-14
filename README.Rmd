@@ -111,25 +111,70 @@ done
 aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-1000.csv"
 ```
 
-**build data frame of chess positions**
-```{r positional data}
+**example of positional data**
+```{r xmpl-pos}
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
 DFSummary(DATA)
 positions <- setup()
-
 pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
-pgn <- pgn[-length(pgn)]
+pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(n in 1:length(pgn)){
+for(n in 1:25){
   positions <- rbind(positions,
                      new_position(pgn[n], positions))
-  print(to.FEN(positions))
+  # positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
 }; rm(n)
+print(cbind(row.names(positions),positions$FEN))
 
 apply(positions[-1,], 1, mobility_board, 
       patterns = c(white="white", black="black", pawns="pawn", 
                    knights="knight", bishops="bishop", rooks="rook", 
                    queens="queen", kings="king"))
+rm(positions, pgn, DATA)
+```
+
+**iterating through positional data
+```{r itr-pos, eval=F}
+DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
+for(n in grep(".", DATA$pgn)){
+  positions <- setup()
+  pgn <- strsplit(DATA[n,"pgn"], " ")[[1]]
+  pgn <- pgn[!grepl(">", pgn)]
+  pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
+                                    "...",
+                                    pgn[seq(2,length(pgn),2)])
+  for(i in 1:length(pgn)){
+    positions <- rbind(positions,
+                       new_position(pgn[i], positions))
+    positions[i, "FEN"] <- to.FEN(position_df=positions[1:i,1:64])
+  }; rm(i)
+  DATA[n,"FEN"] <- positions[nrow(positions),"FEN"]
+  print(n)
+}; rm(n, pgn)
+```
+
+# Issues
+
+```{r xmpl-pos}
+DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
+positions <- setup()
+pgn <- strsplit(DATA[18,"pgn"]," ")[[1]]
+pgn <- pgn[!grepl(">", pgn)]
+pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
+                                    "...",
+                                    pgn[seq(2,length(pgn),2)])
+for(n in 1:length(pgn)){
+  positions <- rbind(positions,
+                     new_position(pgn[n], positions[pgn[n-1],]))
+  # positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
+}; rm(n)
+print(cbind(row.names(positions),positions$FEN))
+
+apply(positions[-1,], 1, mobility_board, 
+      patterns = c(white="white", black="black", pawns="pawn", 
+                   knights="knight", bishops="bishop", rooks="rook", 
+                   queens="queen", kings="king"))
+rm(positions, pgn, DATA)
 ```

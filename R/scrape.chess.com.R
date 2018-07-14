@@ -77,6 +77,9 @@ if("--args" %in% ARGS){
 		# if there is no directory "data", make one
 		if(!file.exists("data")){dir.create("data")}
 		
+		# remove duplicate rows
+		DF <- unique(DF)
+		
 		# write data frame of games
 		write.csv(DF, file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
 				row.names=F)

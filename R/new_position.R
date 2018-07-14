@@ -1,3 +1,5 @@
+# new_pgn <- "32.Rxb1"
+# position_vec <- positions["31...b1Q+",]
 new_position <- function(new_pgn, position_vec){
   
   if(class(position_vec)=="data.frame"){
@@ -75,8 +77,7 @@ new_position <- function(new_pgn, position_vec){
 		newPosition <- data.frame(matrix(newPosition, nrow = 1, 
 		                                 dimnames = list(new_pgn,names(newPosition))),
 		                          stringsAsFactors = F)
-		# names(newPosition) <- new_pgn
-		
+
 		# remove the moving piece from its starting point:
 		newPosition[startSquare] <- NA
 		
@@ -128,10 +129,16 @@ new_position <- function(new_pgn, position_vec){
 		newPosition <- matrix(newPosition, nrow = 1, dimnames = list(new_pgn,names(newPosition)))
 		
 		# remove the King and Rook from their squares:
-		newPosition[startSquare] <- NA
+		newPosition[1,startSquare] <- NA
 		
 		# place the King and Rook on their destination squares:
-		newPosition[endSquare] <- paste(color,names(endSquare))
+		newPosition[1,endSquare] <- paste(color,names(endSquare))
+		
+		newPosition <- matrix(newPosition, nrow = 1, dimnames = list(new_pgn, names(newPosition)))
+		
+		newPosition <- as.data.frame(newPosition, stringsAsFactors = F)
+		
+		colnames(newPosition) <- names(position_vec)
 	}
 	
 	# if the move is a promotion:
@@ -188,10 +195,10 @@ new_position <- function(new_pgn, position_vec){
 		startSquare <- names(workList)[startSquare]
 		
 		# define the new position as the old position, modify later:
-		newPosition <- position_vec[startPosition]
+		newPosition <- position_vec
 		
 		# define the rowname of the new position as the new input pgn:
-		names(newPosition) <- new_pgn
+		# names(newPosition) <- new_pgn
 		
 		# remove the moving piece from its starting point:
 		newPosition[startSquare] <- NA
@@ -199,6 +206,12 @@ new_position <- function(new_pgn, position_vec){
 		# add the moving point to its destination point:
 		newPosition[endSquare] <- piece
 	}
+	
+	newPosition <- matrix(newPosition, nrow = 1, dimnames = list(new_pgn, names(newPosition)))
+	
+	newPosition <- as.data.frame(newPosition, stringsAsFactors = F)
+	
+	colnames(newPosition) <- names(position_vec)
 	
 	# return the new position:
 	newPosition
