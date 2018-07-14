@@ -1,10 +1,11 @@
-to.FEN <- function(position_vec, pgn_history){
-  if(class(position_vec)=="data.frame"){
-    position_vec <- unlist(position_vec[nrow(position_vec),])
-  }
-	enPassant <- grepl("phantom", position_vec, ignore.case = T)
+to.FEN <- function(position_df){
+  pgn <- row.names(position_df)
+  position_vec <- unlist(position_df[nrow(position_df),])
+  if(sum(is.na(position_vec))==length(position_vec)) return("")
+  enPassant <- grepl("phantom", position_vec, ignore.case = T)
 	enPassant <- names(position_vec)[enPassant]
 	if(length(enPassant)==0){enPassant <- "-"}
+	
 	ORD <- rep(letters[1:8],8)
 	for(n in 1:8){
 		m <- 8*n
@@ -34,22 +35,23 @@ to.FEN <- function(position_vec, pgn_history){
 		n <- n + 1
 	}
 	string <- paste(string, collapse = "")
-	if(grepl(chesspatterns$black, pgn_history[length(pgn_history)])){
+	
+	if(grepl(paste0("zero|",chesspatterns$black), pgn[length(pgn)])){
 		string <- paste(string, "w")
-	}else{
+	}else if(grepl(chesspatterns$white, pgn[length(pgn)])){
 		string <- paste(string, "b")
-	}
+	}else{stop("inconclusive color")}
 	tests <- rep(NA, 4)
 	names(tests) <- c("K", "Q", "k", "q")
-	# temp <- unique(as.vector(as.matrix(position[game,c("a1","e1")])))
-	# tests["K"] <- length(temp)==2
-	# temp <- unique(as.vector(as.matrix(position[game,c("h1","e1")])))
-	# tests["Q"] <- length(temp)==2
-	# temp <- unique(as.vector(as.matrix(position[game,c("a8","e8")])))
-	# tests["k"] <- length(temp)==2
-	# temp <- unique(as.vector(as.matrix(position[game,c("h8","e8")])))
-	# tests["q"] <- length(temp)==2
-	# tests <- tests[tests]
+	temp <- unique(as.vector(as.matrix(position_df[,c("a1","e1")])))
+	tests["K"] <- length(temp)==2
+	temp <- unique(as.vector(as.matrix(position_df[,c("h1","e1")]))) 
+	tests["Q"] <- length(temp)==2 
+	temp <- unique(as.vector(as.matrix(position_df[,c("a8","e8")]))) 
+	tests["k"] <-length(temp)==2 
+	temp <- unique(as.vector(as.matrix(position_df[,c("h8","e8")]))) 
+	tests["q"] <-length(temp)==2 
+	tests <- tests[tests]
 	if(length(tests)==0){
 		tests <- "-"
 	}else{
@@ -57,12 +59,14 @@ to.FEN <- function(position_vec, pgn_history){
 	}
 	string <- paste(string, tests)
 	string <- paste(string, enPassant)
-	halfClock <- row.names(position)[game]
-	halfClock <- rev(!grepl("[KQRNB]",halfClock) | grepl("x",halfClock))
-	halfClock <- min(which(halfClock))
+	
+	halfClock <- which(grepl("=[KQRNB]", pgn) | grepl("x", pgn))
+	halfClock <- length(pgn) - halfClock[length(halfClock)]
 	string <- paste(string,halfClock)
-	fullMove <- unlist(strsplit(row.names(position[game_pgn,]),"\\.|_"))
-	fullMove <- fullMove[min(grep("^\\d+$",fullMove))]
+	
+	fullMove <- row.names(position_df)[!grepl("empty|zero", row.names(position_df))]
+	fullMove <- floor(length(fullMove)/2)
 	string <- paste(string, fullMove)
+  names(string) <- row.names(position_df)[nrow(position_df)]
 	string
 }

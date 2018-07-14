@@ -73,7 +73,11 @@ rm(positions)
 
 **to.FEN**
 ```{r to.FEN, eval=F}
-to.FEN(setup()[1,])
+# returns empty string in response to empty chessboard
+to.FEN(empty())
+
+# returns standard string for standard setup
+to.FEN(setup())
 ```
 
 # Chess Data
@@ -112,18 +116,18 @@ aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-100
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
 DFSummary(DATA)
 positions <- setup()
+
 pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
 pgn <- pgn[-length(pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(n in 1:22){
+for(n in 1:length(pgn)){
   positions <- rbind(positions,
                      new_position(pgn[n], positions))
-  rows <- nrow(positions)-(1:0)
-  cols <- !(is.na(positions[rows[1],])==is.na(positions[rows[2],]))
-  print(positions[rows, cols])
-}#; rm(n, rows, cols)
+  print(to.FEN(positions))
+}; rm(n)
+
 apply(positions[-1,], 1, mobility_board, 
       patterns = c(white="white", black="black", pawns="pawn", 
                    knights="knight", bishops="bishop", rooks="rook", 
