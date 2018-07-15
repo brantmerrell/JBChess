@@ -1,5 +1,5 @@
-# new_pgn <- "32.Rxb1"
-# position_vec <- positions["31...b1Q+",]
+# new_pgn <- "31...b1Q+"
+# position_vec <- positions["31.Rb3",]
 new_position <- function(new_pgn, position_vec){
   
   if(class(position_vec)=="data.frame"){
@@ -168,7 +168,11 @@ new_position <- function(new_pgn, position_vec){
     # name the list of potential destinations based on pawn locations: 
     names(workList) <- as.character(workFrame$square)
     
-    startSquare <- which(endSquare %in% workList)
+    # write a test specifying whether a starting point is valid for the destination:
+    TEST <- function(n){endSquare %in% workList[[n]]}
+    
+    # test each of the starting points:
+    startSquare <- which(unlist(lapply(1:length(workList),TEST)))
     
     # if more than one starting point is still possible, 
     # the input pgn will contain more specific information:

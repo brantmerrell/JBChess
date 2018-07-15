@@ -1,6 +1,6 @@
 # DEBUG ISSUE:
-square = "b3"
-position_vec = positions["30...b2",]
+# square = "b3"
+# position_vec = positions["30...b2",]
 piece = NULL
 mobility_piece <- function(square, position_vec=NULL, piece=NULL){
   

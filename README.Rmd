@@ -158,12 +158,13 @@ for(n in grep(".", DATA$pgn)){
 # Issues
 
 ```{r setup 2}
+rm(list=ls())
 invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
 ```
 
 **Issue 5**
-Function *mobility_piece* does not return complete list of options.
-Link: o_7
+Function *new_positions* does not vacate position during pawn promotion.
+Link: [o_7](https://www.chess.com/games/view/7)
 ```{r xmpl-pos}
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
 positions <- setup()
@@ -172,8 +173,9 @@ pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-n <- 1
-while(pgn[n]!="31...b1Q+"){
+# n <- 1
+# while(pgn[n]!="31...b1Q+"){
+for(n in 1:length(pgn)){
   temp <- new_position(pgn[n], positions)
   if(class(temp[,1])=="factor"){stop("strings are factors")}
   if(class(temp)!="data.frame"){stop("not a data frame")}
@@ -181,7 +183,9 @@ while(pgn[n]!="31...b1Q+"){
                      temp)
   n <- n + 1
 }
-# the following should include b1, but does not
-mobility_piece(square="b3", position_vec=positions)
+# this board is correct:
+board(positions)
+# b2 moves to b1 and gets promoted to queen, then b2 should be vacant:
+board(new_position("31...b1Q+",positions))
 ```
 
