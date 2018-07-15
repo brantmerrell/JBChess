@@ -8,7 +8,7 @@ s3Files <- function(File="s3Files.txt"){
 	Files <- matrix(unlist(strsplit(Files,";")), ncol=4,byrow=T)
 	Files <- data.frame(Files, stringsAsFactors=F)
 	colnames(Files) <- c("Date", "Time", "Size", "File")
-	Files$Size <- as.numeric(files$Size)
+	Files$Size <- as.numeric(Files$Size)
 	IDs <- gsub("[[:alpha:]]|[ \\./:]","",Files$File)
 	IDs[!grepl("chess.com IDs", Files$File)] <- ""
 	Files[,"startID"] <- as.numeric(gsub("-\\d+","",IDs))

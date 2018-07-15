@@ -157,6 +157,13 @@ for(n in grep(".", DATA$pgn)){
 
 # Issues
 
+```{r setup 2}
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
+```
+
+**Issue 5**
+Function *mobility_piece* does not return complete list of options.
+Link: o_7
 ```{r xmpl-pos}
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
 positions <- setup()
@@ -165,16 +172,16 @@ pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(n in 1:length(pgn)){
+n <- 1
+while(pgn[n]!="31...b1Q+"){
+  temp <- new_position(pgn[n], positions)
+  if(class(temp[,1])=="factor"){stop("strings are factors")}
+  if(class(temp)!="data.frame"){stop("not a data frame")}
   positions <- rbind(positions,
-                     new_position(pgn[n], positions[pgn[n-1],]))
-  # positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
-}; rm(n)
-print(cbind(row.names(positions),positions$FEN))
-
-apply(positions[-1,], 1, mobility_board, 
-      patterns = c(white="white", black="black", pawns="pawn", 
-                   knights="knight", bishops="bishop", rooks="rook", 
-                   queens="queen", kings="king"))
-rm(positions, pgn, DATA)
+                     temp)
+  n <- n + 1
+}
+# the following should include b1, but does not
+mobility_piece(square="b3", position_vec=positions)
 ```
+
