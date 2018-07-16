@@ -1,5 +1,9 @@
+# position_df <- positions["8...Nf6",]
 to.FEN <- function(position_df){
   pgn <- row.names(position_df)
+  if(length(pgn)==1) {
+    message("warning: single-row input may limit accuracy of castling and halfmove clock")
+  }
   position_vec <- unlist(position_df[nrow(position_df),])
   if(sum(is.na(position_vec))==length(position_vec)) return("")
   enPassant <- grepl("phantom", position_vec, ignore.case = T)
@@ -61,7 +65,7 @@ to.FEN <- function(position_df){
 	string <- paste(string, enPassant)
 	
 	halfClock <- which(grepl("=[KQRNB]", pgn) | grepl("x", pgn))
-	halfClock <- length(pgn) - halfClock[length(halfClock)]
+	if(length(halfClock)=="0") halfClock <- 
 	string <- paste(string,halfClock)
 	
 	fullMove <- row.names(position_df)[!grepl("empty|zero", row.names(position_df))]

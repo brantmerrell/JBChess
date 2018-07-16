@@ -121,11 +121,13 @@ pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(n in 1:25){
+for(n in 1:length(pgn)){
   positions <- rbind(positions,
                      new_position(pgn[n], positions))
-  # positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
 }; rm(n)
+for(n in 2:nrow(positions)){
+  positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
+}
 print(cbind(row.names(positions),positions$FEN))
 
 apply(positions[-1,], 1, mobility_board, 
@@ -148,11 +150,11 @@ for(n in grep(".", DATA$pgn)){
   for(i in 1:length(pgn)){
     positions <- rbind(positions,
                        new_position(pgn[i], positions))
-    positions[i, "FEN"] <- to.FEN(position_df=positions[1:i,1:64])
   }; rm(i)
-  DATA[n,"FEN"] <- positions[nrow(positions),"FEN"]
+  DATA[n,"FEN"] <- to.FEN(position_df=positions[,1:64])
   print(n)
 }; rm(n, pgn)
+table(nchar(DATA$FEN))
 ```
 
 # Issues
