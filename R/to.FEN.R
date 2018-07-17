@@ -1,4 +1,4 @@
-# position_df <- positions[1:nrow(positions),]
+# position_df <- positions
 to.FEN <- function(position_df){
   pgn <- row.names(position_df)
   if(length(pgn)==1) {
@@ -72,7 +72,8 @@ to.FEN <- function(position_df){
 	string <- paste(string, enPassant)
 	
 	halfClock <- which(grepl("=[KQRNB]", pgn) | grepl("x", pgn))
-	if(length(halfClock)=="0") halfClock <- 
+	if(length(halfClock)=="0") halfClock <- "-"
+	halfClock <- length(pgn)-max(halfClock)
 	string <- paste(string,halfClock)
 	
 	fullMove <- row.names(position_df)[!grepl("empty|zero", row.names(position_df))]
