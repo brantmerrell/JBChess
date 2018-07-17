@@ -77,7 +77,7 @@ to.FEN <- function(position_df){
 	string <- paste(string,halfClock)
 	
 	fullMove <- row.names(position_df)[!grepl("empty|zero", row.names(position_df))]
-	fullMove <- floor(length(fullMove)/2)
+	fullMove <- ceiling(length(fullMove)/2)
 	string <- paste(string, fullMove)
   names(string) <- row.names(position_df)[nrow(position_df)]
 	string
