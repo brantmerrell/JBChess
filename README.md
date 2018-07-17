@@ -5,6 +5,7 @@ Josh Merrell
 -   [Introduction](#introduction)
 -   [Exploration of Functions](#exploration-of-functions)
 -   [Chess Data](#chess-data)
+-   [Issues](#issues)
 
 Introduction
 ============
@@ -169,7 +170,7 @@ done
 aws s3 cp "s3://jbchess/data/chess.com IDs 1-1000.csv" "data/chess.com IDs 1-1000.csv"
 ```
 
-**build data frame of chess positions**
+**example of positional data**
 
 ``` r
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
@@ -197,65 +198,73 @@ DFSummary(DATA)
 
 ``` r
 positions <- setup()
-
 pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
-pgn <- pgn[-length(pgn)]
+pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
 for(n in 1:length(pgn)){
   positions <- rbind(positions,
                      new_position(pgn[n], positions))
-  print(to.FEN(positions))
 }; rm(n)
+for(n in 2:nrow(positions)){
+  positions[n, "FEN"] <- to.FEN(positions[1:n,1:64])
+}
+print(cbind(row.names(positions),positions$FEN))
 ```
 
-    ##                                                        1.e4 
-    ## "rnbqkbnr/pppppppp/8/8/4P3/4P3/PPPP1PPP/RNBQKBNR b - e3  0" 
-    ##                                                        1...e5 
-    ## "rnbqkbnr/pppp1ppp/4p3/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - e6  1" 
-    ##                                                          2.f4 
-    ## "rnbqkbnr/pppp1ppp/8/4p3/4PP2/5P2/PPPP2PP/RNBQKBNR b - f3  1" 
-    ##                                                      2...d6 
-    ## "rnbqkbnr/ppp2ppp/3p4/4p3/4PP2/8/PPPP2PP/RNBQKBNR w - -  2" 
-    ##                                                         3.Bc4 
-    ## "rnbqkbnr/ppp2ppp/3p4/4p3/2B1PP2/8/PPPP2PP/RNBQK1NR b - -  2" 
-    ##                                                        3...c6 
-    ## "rnbqkbnr/pp3ppp/2pp4/4p3/2B1PP2/8/PPPP2PP/RNBQK1NR w - -  3" 
-    ##                                                          4.Nf3 
-    ## "rnbqkbnr/pp3ppp/2pp4/4p3/2B1PP2/5N2/PPPP2PP/RNBQK2R b - -  3" 
-    ##                                                         4...Bg4 
-    ## "rn1qkbnr/pp3ppp/2pp4/4p3/2B1PPb1/5N2/PPPP2PP/RNBQK2R w - -  4" 
-    ##                                                           5.fxe5 
-    ## "rn1qkbnr/pp3ppp/2pp4/4P3/2B1P1b1/5N2/PPPP2PP/RNBQK2R b - - 0 4" 
-    ##                                                        5...dxe5 
-    ## "rn1qkbnr/pp3ppp/2p5/4p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w - - 0 5" 
-    ##                                                       6.Bxf7+ 
-    ## "rn1qkbnr/pp3Bpp/2p5/4p3/4P1b1/5N2/PPPP2PP/RNBQK2R b - - 0 5" 
-    ##                                                      6...Kxf7 
-    ## "rn1q1bnr/pp3kpp/2p5/4p3/4P1b1/5N2/PPPP2PP/RNBQK2R w - - 0 6" 
-    ##                                                     7.Nxe5+ 
-    ## "rn1q1bnr/pp3kpp/2p5/4N3/4P1b1/8/PPPP2PP/RNBQK2R b - - 0 6" 
-    ##                                                    7...Ke8 
-    ## "rn1qkbnr/pp4pp/2p5/4N3/4P1b1/8/PPPP2PP/RNBQK2R w - - 1 7" 
-    ##                                                     8.Qxg4 
-    ## "rn1qkbnr/pp4pp/2p5/4N3/4P1Q1/8/PPPP2PP/RNB1K2R b - - 0 7" 
-    ##                                                      8...Nf6 
-    ## "rn1qkb1r/pp4pp/2p2n2/4N3/4P1Q1/8/PPPP2PP/RNB1K2R w - - 1 8" 
-    ##                                                      9.Qe6+ 
-    ## "rn1qkb1r/pp4pp/2p1Qn2/4N3/4P3/8/PPPP2PP/RNB1K2R b - - 2 8" 
-    ##                                                      9...Qe7 
-    ## "rn2kb1r/pp2q1pp/2p1Qn2/4N3/4P3/8/PPPP2PP/RNB1K2R w - - 3 9" 
-    ##                                                      10.Qc8+ 
-    ## "rnQ1kb1r/pp2q1pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R b - - 4 9" 
-    ##                                                    10...Qd8 
-    ## "rnQqkb1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R w - - 5 10" 
-    ##                                                    11.Qxd8+ 
-    ## "rn1Qkb1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R b - - 0 10" 
-    ##                                                   11...Kxd8 
-    ## "rn1k1b1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R w - - 0 11" 
-    ##                                                    12.Nf7+ 
-    ## "rn1k1b1r/pp3Npp/2p2n2/8/4P3/8/PPPP2PP/RNB1K2R b - - 1 11"
+    ##       [,1]       
+    ##  [1,] "000_empty"
+    ##  [2,] "000_zero" 
+    ##  [3,] "1.e4"     
+    ##  [4,] "1...e5"   
+    ##  [5,] "2.f4"     
+    ##  [6,] "2...d6"   
+    ##  [7,] "3.Bc4"    
+    ##  [8,] "3...c6"   
+    ##  [9,] "4.Nf3"    
+    ## [10,] "4...Bg4"  
+    ## [11,] "5.fxe5"   
+    ## [12,] "5...dxe5" 
+    ## [13,] "6.Bxf7+"  
+    ## [14,] "6...Kxf7" 
+    ## [15,] "7.Nxe5+"  
+    ## [16,] "7...Ke8"  
+    ## [17,] "8.Qxg4"   
+    ## [18,] "8...Nf6"  
+    ## [19,] "9.Qe6+"   
+    ## [20,] "9...Qe7"  
+    ## [21,] "10.Qc8+"  
+    ## [22,] "10...Qd8" 
+    ## [23,] "11.Qxd8+" 
+    ## [24,] "11...Kxd8"
+    ## [25,] "12.Nf7+"  
+    ##       [,2]                                                             
+    ##  [1,] NA                                                               
+    ##  [2,] "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -  0"        
+    ##  [3,] "rnbqkbnr/pppppppp/8/8/4P3/4P3/PPPP1PPP/RNBQKBNR b KQk e3  0"    
+    ##  [4,] "rnbqkbnr/pppp1ppp/4p3/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQk e6  1"  
+    ##  [5,] "rnbqkbnr/pppp1ppp/8/4p3/4PP2/5P2/PPPP2PP/RNBQKBNR b KQk f3  1"  
+    ##  [6,] "rnbqkbnr/ppp2ppp/3p4/4p3/4PP2/8/PPPP2PP/RNBQKBNR w KQk -  2"    
+    ##  [7,] "rnbqkbnr/ppp2ppp/3p4/4p3/2B1PP2/8/PPPP2PP/RNBQK1NR b KQk -  2"  
+    ##  [8,] "rnbqkbnr/pp3ppp/2pp4/4p3/2B1PP2/8/PPPP2PP/RNBQK1NR w KQk -  3"  
+    ##  [9,] "rnbqkbnr/pp3ppp/2pp4/4p3/2B1PP2/5N2/PPPP2PP/RNBQK2R b KQk -  3" 
+    ## [10,] "rn1qkbnr/pp3ppp/2pp4/4p3/2B1PPb1/5N2/PPPP2PP/RNBQK2R w KQk -  4"
+    ## [11,] "rn1qkbnr/pp3ppp/2pp4/4P3/2B1P1b1/5N2/PPPP2PP/RNBQK2R b KQk - 4" 
+    ## [12,] "rn1qkbnr/pp3ppp/2p5/4p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w KQk - 5"  
+    ## [13,] "rn1qkbnr/pp3Bpp/2p5/4p3/4P1b1/5N2/PPPP2PP/RNBQK2R b KQk - 5"    
+    ## [14,] "rn1q1bnr/pp3kpp/2p5/4p3/4P1b1/5N2/PPPP2PP/RNBQK2R w KQ - 6"     
+    ## [15,] "rn1q1bnr/pp3kpp/2p5/4N3/4P1b1/8/PPPP2PP/RNBQK2R b KQ - 6"       
+    ## [16,] "rn1qkbnr/pp4pp/2p5/4N3/4P1b1/8/PPPP2PP/RNBQK2R w KQ - 7"        
+    ## [17,] "rn1qkbnr/pp4pp/2p5/4N3/4P1Q1/8/PPPP2PP/RNB1K2R b KQ - 7"        
+    ## [18,] "rn1qkb1r/pp4pp/2p2n2/4N3/4P1Q1/8/PPPP2PP/RNB1K2R w KQ - 8"      
+    ## [19,] "rn1qkb1r/pp4pp/2p1Qn2/4N3/4P3/8/PPPP2PP/RNB1K2R b KQ - 8"       
+    ## [20,] "rn2kb1r/pp2q1pp/2p1Qn2/4N3/4P3/8/PPPP2PP/RNB1K2R w KQ - 9"      
+    ## [21,] "rnQ1kb1r/pp2q1pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R b KQ - 9"      
+    ## [22,] "rnQqkb1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R w KQ - 10"       
+    ## [23,] "rn1Qkb1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R b KQ - 10"       
+    ## [24,] "rn1k1b1r/pp4pp/2p2n2/4N3/4P3/8/PPPP2PP/RNB1K2R w KQ - 11"       
+    ## [25,] "rn1k1b1r/pp3Npp/2p2n2/8/4P3/8/PPPP2PP/RNB1K2R b KQ - 11"
 
 ``` r
 apply(positions[-1,], 1, mobility_board, 
@@ -265,32 +274,89 @@ apply(positions[-1,], 1, mobility_board,
 ```
 
     ##         000_zero 1.e4 1...e5 2.f4 2...d6 3.Bc4 3...c6 4.Nf3 4...Bg4 5.fxe5
-    ## total         40   51     61   62     64    68     69    70      72     71
-    ## white         20   31     30   32     31    35     35    36      35     34
-    ## black         20   20     31   30     33    33     34    34      37     37
+    ## total         40   42     52   62     58    67     66    68      70     71
+    ## white         20   22     30   32     31    34     35    34      35     34
+    ## black         20   20     22   30     27    33     31    34      35     37
     ## pawns         32   32     31   31     29    28     27    27      26     26
     ## knights        8    9     10   10     11    11     10    12      12     11
-    ## bishops        0    5     10   10     11    15     15    15      17     17
-    ## rooks          0    0      0    0      0     0      0     2       2      2
-    ## queens         0    4      8    8      9     9     12     9      10     10
+    ## bishops        0    0      5   10      6    14     15    15      16     17
+    ## rooks          0    0      0    0      0     0      0     0       2      2
+    ## queens         0    0      4    8      8     9      9     9       9     10
     ## kings          0    1      2    3      4     5      5     5       5      5
     ##         5...dxe5 6.Bxf7+ 6...Kxf7 7.Nxe5+ 7...Ke8 8.Qxg4 8...Nf6 9.Qe6+
-    ## total         78      77       72      78      75     78      79     81
-    ## white         33      33       25      30      30     42      42     44
-    ## black         45      44       47      48      45     36      37     37
-    ## pawns         23      22       22      21      21     21      21     22
+    ## total         69      74       71      73      75     77      78     78
+    ## white         33      30       25      28      30     41      42     41
+    ## black         36      44       46      45      45     36      36     37
+    ## pawns         23      21       22      21      21     21      21     21
     ## knights       12      12       12      15      15     14      17     18
-    ## bishops       21      20       12      14      14      5       5      5
-    ## rooks          2       2        2       2       2      2       3      3
-    ## queens        15      15       16      18      17     29      26     26
+    ## bishops       17      18       12      11      14      5       5      5
+    ## rooks          2       2        2       2       2      2       2      3
+    ## queens        10      15       15      16      17     28      26     24
     ## kings          5       6        8       8       6      7       7      7
     ##         9...Qe7 10.Qc8+ 10...Qd8 11.Qxd8+ 11...Kxd8 12.Nf7+
-    ## total        73      71       76       69        58      56
-    ## white        43      40       39       42        29      27
-    ## black        30      31       37       27        29      29
+    ## total        72      65       70       67        58      56
+    ## white        43      36       39       40        29      27
+    ## black        29      29       31       27        29      29
     ## pawns        22      22       22       22        22      22
     ## knights      18      18       18       18        19      17
-    ## bishops       0       0        5        5         5       5
+    ## bishops       0       0        0        5         5       5
     ## rooks         3       3        3        3         3       3
-    ## queens       23      21       21       13         0       0
+    ## queens       22      15       20       11         0       0
     ## kings         7       7        7        8         9       9
+
+``` r
+rm(positions, pgn, DATA)
+```
+
+\*\*iterating through positional data
+
+``` r
+DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
+SEQ <- grep(".", DATA$pgn)
+SEQ <- SEQ[seq(1, length(SEQ), length.out = 10)]
+for(n in SEQ){
+  positions <- setup()
+  pgn <- strsplit(DATA[n,"pgn"], " ")[[1]]
+  pgn <- pgn[!grepl(">", pgn)]
+  pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
+                                    "...",
+                                    pgn[seq(2,length(pgn),2)])
+  for(i in 1:length(pgn)){
+    positions <- rbind(positions,
+                       new_position(pgn[i], positions))
+  }; rm(i)
+  DATA[n,"FEN"] <- to.FEN(position_df=positions[,1:64])
+  print(n)
+}; rm(n, pgn)
+DATA[SEQ,c("ID", "FEN")]
+table(nchar(DATA$FEN))
+```
+
+Issues
+======
+
+``` r
+rm(list=ls())
+invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
+
+DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
+positions <- setup()
+
+pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
+pgn <- pgn[!grepl(">", pgn)]
+pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
+                                    "...",
+                                    pgn[seq(2,length(pgn),2)])
+for(n in 1:length(pgn)){
+  temp <- new_position(pgn[n], positions)
+  if(class(temp[,1])=="factor"){stop("strings are factors")}
+  if(class(temp)!="data.frame"){stop("not a data frame")}
+  positions <- rbind(positions,
+                     temp)
+  n <- n + 1
+}
+to.FEN(positions)
+# this board is correct:
+board(positions[nrow(positions),])
+file.edit("R/to.FEN.R")
+```

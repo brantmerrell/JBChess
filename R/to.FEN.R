@@ -1,4 +1,4 @@
-# position_df <- positions["8...Nf6",]
+# position_df <- positions[1:nrow(positions),]
 to.FEN <- function(position_df){
   pgn <- row.names(position_df)
   if(length(pgn)==1) {
@@ -45,17 +45,24 @@ to.FEN <- function(position_df){
 	}else if(grepl(chesspatterns$white, pgn[length(pgn)])){
 		string <- paste(string, "b")
 	}else{stop("inconclusive color")}
+	
 	tests <- rep(NA, 4)
 	names(tests) <- c("K", "Q", "k", "q")
-	temp <- unique(as.vector(as.matrix(position_df[,c("a1","e1")])))
-	tests["K"] <- length(temp)==2
-	temp <- unique(as.vector(as.matrix(position_df[,c("h1","e1")]))) 
-	tests["Q"] <- length(temp)==2 
-	temp <- unique(as.vector(as.matrix(position_df[,c("a8","e8")]))) 
-	tests["k"] <-length(temp)==2 
-	temp <- unique(as.vector(as.matrix(position_df[,c("h8","e8")]))) 
-	tests["q"] <-length(temp)==2 
-	tests <- tests[tests]
+	rows <- grepl("\\d\\.", row.names(position_df))
+	if(sum(rows)==0){
+	  tests[1:4] <- T
+	}else{
+	  temp <- unique(position_df[rows, c("a1","e1")])
+	  tests["K"] <- nrow(temp)==1
+	  temp <- unique(position_df[rows, c("h1","e1")])
+	  tests["Q"] <- nrow(temp)==1
+	  temp <- unique(position_df[rows, c("a8","e8")])
+	  tests["k"] <-nrow(temp)==1
+	  temp <- unique(position_df[rows, c("h8","e8")])
+	  tests["q"] <-length(temp)==1
+	  tests <- tests[tests]
+	}
+	
 	if(length(tests)==0){
 		tests <- "-"
 	}else{
