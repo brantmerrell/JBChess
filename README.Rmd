@@ -145,7 +145,7 @@ SEQ <- SEQ[seq(1, length(SEQ), length.out = 10)]
 for(n in SEQ){
   positions <- setup()
   pgn <- strsplit(DATA[n,"pgn"], " ")[[1]]
-  pgn <- pgn[!grepl(">", pgn)]
+  pgn <- pgn[!grepl(">|-", pgn)]
   pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
@@ -157,7 +157,6 @@ for(n in SEQ){
   print(n)
 }; rm(n, pgn)
 DATA[SEQ,c("ID", "FEN")]
-table(nchar(DATA$FEN))
 ```
 
 # Issues
