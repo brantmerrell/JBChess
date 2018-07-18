@@ -1,7 +1,3 @@
-# DEBUG ISSUE:
-# square = "b3"
-# position_vec = positions["30...b2",]
-piece = NULL
 mobility_piece <- function(square, position_vec=NULL, piece=NULL){
   
   # test position_vec and piece for null

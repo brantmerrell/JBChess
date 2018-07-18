@@ -164,6 +164,37 @@ grepl(paste("x", chesspatterns$pawn, sep="|"), "62.e8Q+")
 write.csv(FEN_issue, "FEN_issue.csv", row.names = F)
 ```
 
+# Play game
+```{r}
+invisible(lapply(list.files("R","\\.R$",full.names = T), source))
+positions <- setup()
+pgn <- "zero"
+while(!grepl("stop|#", png)){
+  pgn <- readline("new_pgn: ")
+  positions <- new_position("1.e3", 
+                            position_vec = positions[nrow(positions),])
+  workFrame <- pieceCount(positions[nrow(positions),])
+  workList <- lapply(workFrame$square, mobility_piece, 
+                     position_vec = positions[nrow(positions),])
+  names(workList) <- paste(workFrame$piece)
+  for(n in 1:length(workList)){
+    if(length(workList[[n]])==0) next
+    workList[[n]] <- paste(names(workList)[n], workList[[n]])
+  }
+  workList <- unlist(workList)
+  workList <- unname(workList)
+  mv_options <- data.frame(option=workList, stringsAsFactors = F)
+  for(n in 1:nrow(mv_options)){
+    temp_position <- new_position(mv_options[n,"option"],
+                                  positions[nrow(positions),])
+    temp <- unlist(mobility_board(temp_position))
+    for(m in 1:length(temp)){
+      mv_options[n,names(temp)[m]] <- temp[m]
+    }
+  }
+}
+```
+
 # Issues
 
 ```{r pending issue, eval=F}

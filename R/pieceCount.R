@@ -1,4 +1,8 @@
 pieceCount <- function(position_vec){
+  
+  if(class(position_vec)=="data.frame"){
+    position_vec <- unlist(position_vec[nrow(position_vec),])
+  }
 	
 	# identify which part of the board is occupied
 	Col <- !is.na(position_vec)
