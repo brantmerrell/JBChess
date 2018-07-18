@@ -71,13 +71,19 @@ to.FEN <- function(position_df){
 	string <- paste(string, tests)
 	string <- paste(string, enPassant)
 	
-	halfClock <- which(grepl("[KQRNB][:punct:]?$", pgn) | grepl("x|\\+", pgn))
-	if(length(halfClock)=="0"){ halfClock <- "-" }
-	halfClock <- length(pgn)-max(halfClock)+1
+	TEST <- grep(paste("x", chesspatterns$pawn, sep="|"), pgn)
+	if(length(TEST)=="0"){ halfClock <- "-" }else{
+	  # ifelse(sum(grepl("#",pgn)==0), add <- 1, add <- 0)
+  	halfClock <- length(pgn)-TEST[length(TEST)]
+	}
+	if(halfClock==0){
+	  halfClock <- length(pgn)-TEST[length(TEST)-1]
+	}
 	string <- paste(string,halfClock)
 	
 	fullMove <- row.names(position_df)[!grepl("empty|zero", row.names(position_df))]
-	fullMove <- floor((length(fullMove)+1)/2)
+	ifelse(sum(grepl("#",pgn)==0), add <- 1, add <- 0)
+	fullMove <- ceiling((length(fullMove)+add)/2)
 	string <- paste(string, fullMove)
   names(string) <- row.names(position_df)[nrow(position_df)]
 	string

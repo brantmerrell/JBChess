@@ -145,18 +145,23 @@ SEQ <- SEQ[seq(1, length(SEQ), length.out = 10)]
 for(n in SEQ){
   positions <- setup()
   pgn <- strsplit(DATA[n,"pgn"], " ")[[1]]
-  pgn <- pgn[!grepl(">|-", pgn)]
   pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
+  pgn <- pgn[-length(pgn)]
   for(i in 1:length(pgn)){
     positions <- rbind(positions,
                        new_position(pgn[i], positions))
   }; rm(i)
   DATA[n,"FEN"] <- to.FEN(position_df=positions[,1:64])
   print(n)
-}; rm(n, pgn)
-DATA[SEQ,c("ID", "FEN")]
+}; rm(n, pgn, positions)
+FEN_issue <- read.csv("FEN_issue.csv", stringsAsFactors = F)
+colnames(FEN_issue)
+FEN_issue$FEN <- DATA[SEQ,"FEN"]
+for (n in 1:10) {print(FEN_issue[n,]); readline()}
+grepl(paste("x", chesspatterns$pawn, sep="|"), "62.e8Q+")
+write.csv(FEN_issue, "FEN_issue.csv", row.names = F)
 ```
 
 # Issues
