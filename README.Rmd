@@ -139,10 +139,11 @@ rm(positions, pgn, DATA)
 
 **iterating through positional data
 ```{r itr-pos, eval=F}
+rm(list = ls())
 DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
-SEQ <- grep(".", DATA$pgn)
-SEQ <- SEQ[seq(1, length(SEQ), length.out = 10)]
-for(n in SEQ){
+invisible(lapply(list.files("R","\\.R$",full.names=T), source))
+# generate end-position FEN for games with PGN
+for(n in grep(".",DATA$pgn)){
   positions <- setup()
   pgn <- strsplit(DATA[n,"pgn"], " ")[[1]]
   pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
@@ -156,16 +157,26 @@ for(n in SEQ){
   DATA[n,"FEN"] <- to.FEN(position_df=positions[,1:64])
   print(n)
 }; rm(n, pgn, positions)
-FEN_issue <- read.csv("FEN_issue.csv", stringsAsFactors = F)
-colnames(FEN_issue)
-FEN_issue$FEN <- DATA[SEQ,"FEN"]
-for (n in 1:10) {print(FEN_issue[n,]); readline()}
-grepl(paste("x", chesspatterns$pawn, sep="|"), "62.e8Q+")
-write.csv(FEN_issue, "FEN_issue.csv", row.names = F)
+# compare end-position FEN with chess.com
+set.seed(123)
+TEST <- sample(grep(".",DATA$pgn), 10)
+for(n in TEST){
+  o_id <- gsub("._","",DATA[n,"ID"])
+  Link <- file.path("https://www.chess.com/games/view", o_id)
+  browseURL(Link)
+  DATA[n,"FEN_online"] <- readline("FEN: ")
+}; rm(n)
+FEN_issue <- DATA[DATA$ID %in% DATA[TEST, "ID"],
+                  c("ID", "pgn", "FEN", "FEN_online")]
+for (n in 1:10) {
+  if(FEN_issue[n,"FEN"]==FEN_issue[n,"FEN_online"]) next
+  print(FEN_issue[n,]); readline()
+}
+write.csv(FEN_issue, "data/FEN_test_2.csv", row.names = F)
 ```
 
 # Play game
-```{r}
+```{r play-game, eval=F}
 invisible(lapply(list.files("R","\\.R$",full.names = T), source))
 positions <- setup()
 pgn <- "zero"
