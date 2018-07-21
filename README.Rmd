@@ -177,6 +177,7 @@ write.csv(FEN_issue, "data/FEN_test_2.csv", row.names = F)
 
 # Play game
 ```{r play-game, eval=F}
+rm(list = ls())
 invisible(lapply(list.files("R","\\.R$",full.names = T), source))
 positions <- setup()
 pgn <- "."
@@ -185,65 +186,79 @@ while(!grepl("stop|#", pgn)){
   positions <- rbind(positions,
                      new_position(pgn, 
                                   position_vec = positions[nrow(positions),]))
-  workFrame <- pieceCount(positions[nrow(positions),])
+  piece_df <- pieceCount(positions[nrow(positions),])
   color <- ifelse(grepl(chesspatterns$white,pgn), 
-                  "black", 
-                  "white")
-  workFrame <- workFrame[grepl(color, workFrame$piece),]
-  workList <- lapply(workFrame$square, mobility_piece, 
-                     position_vec = positions[nrow(positions),])
-  names(workList) <- paste(workFrame$piece)
-  for(n in 1:length(workList)){
-    if(length(workList[[n]])==0) next
-    if(0<sum(is.na(workList[[n]]))) next
-    workList[[n]] <- paste(names(workList)[n], workList[[n]])
+                  c(this="white", other="black"), 
+                  c(this="black", other="white"))
+  piece_df <- piece_df[grepl(color, piece_df$piece),]
+  for(n in 1:nrow(piece_df)){
+    
   }
-  workList <- unlist(workList)
-  workList <- unname(workList)
-  workList <- workList[!is.na(workList)]
-  mv_options <- data.frame(option=workList, stringsAsFactors = F)
-  for(n in 1:nrow(mv_options)){
-    temp_position <- new_position(mv_options[n,"option"],
-                                  positions[nrow(positions),])
-    temp <- unlist(mobility_board(temp_position))
+  for(n in 1:nrow(workFrame)){
+    mv_options <- mobility_piece(workFrame[n,"square"], 
+                                 position_vec = positions[nrow(positions),])
+    for(option in mv_options){
+      temp_position <- new_position(workFrame[n,"pgn"],
+                                    positions[nrow(positions),])
+    }
+    temp <- mobility_board(temp_position)
     for(m in 1:length(temp)){
-      mv_options[n,names(temp)[m]] <- temp[m]
+      workFrame[n,names(temp)[m]] <- temp[m]
     }
   }
-  other_col <- ifelse(color=="white","black", "white")
-  ORD <- mv_options[,color] - mv_options[,other_col]
+  ORD <- mv_options[,color["other"]] - mv_options[,"this"]
   mv_options <- mv_options[order(ORD, decreasing = F),]
   print(mv_options)
   print(paste("last move:",pgn))
 }
 ```
 
-# Issues
-
-```{r pending issue, eval=F}
+# testthat.R
+**mobility_piece**
+```{r testing-setup, eval=T}
 rm(list=ls())
+# load functions
 invisible(lapply(list.files("R", "\\.R$", full.names = T), source))
 
-DATA <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
-positions <- setup()
+# load game sample
+games <- read.csv("data/chess.com IDs 1-1000.csv", stringsAsFactors = F)
 
-pgn <- strsplit(DATA[1,"pgn"]," ")[[1]]
+# build pgn
+pgn <- strsplit(games[1,"pgn"]," ")[[1]]
 pgn <- pgn[!grepl(">", pgn)]
 pgn[seq(2,length(pgn),2)] <- paste0(seq(1,length(pgn)/2),
                                     "...",
                                     pgn[seq(2,length(pgn),2)])
-for(n in 1:length(pgn)){
-  temp <- new_position(pgn[n], positions)
-  if(class(temp[,1])=="factor"){stop("strings are factors")}
-  if(class(temp)!="data.frame"){stop("not a data frame")}
-  positions <- rbind(positions,
-                     temp)
-  n <- n + 1
+# define positions
+positions <- setup()
+for(n in 1:length(pgn[-1])){
+  positions <- rbind(positions, 
+                     new_position(pgn[n], position_vec = positions[nrow(positions),]))
 }
-to.FEN(positions)
-# this board is correct:
-board(positions[nrow(positions),])
-file.edit("R/to.FEN.R")
 
+FEN_test_2 <- read.csv("data/FEN_test_2.csv", stringsAsFactors = F)
 ```
 
+**mobility_piece**
+```{r mobility_piece}
+# begin tests
+test_that("mobility_piece adds capture when pgn.output=T",
+          {
+            test_pos <- positions[pgn[grep("x", pgn)[1]-1],]
+            expect_gt(sum(grepl("x", mobility_piece(square="f4", 
+                                                    position_vec = test_pos,
+                                                    pgn.output=T))), 0)
+          })
+test_that("mobility_piece adds fullmove number when pgn.output=T",
+          {
+            test_pos <- positions["1.e4",]
+            expect_gt(mobility_piece(square="b8",
+                                     position_vec = positions["1.e4",],
+                                     pgn.output=T) %>% 
+                        grepl(pattern = "1\\.{3}") %>% sum, 0)
+          })
+```
+**to.FEN**
+```{r to.FEN}
+
+```

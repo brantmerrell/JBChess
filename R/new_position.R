@@ -1,4 +1,4 @@
-# new_pgn <- mv_options[n,"option"]
+# new_pgn <- workFrame[n,"pgn"]
 # position_vec <- positions
 new_position <- function(new_pgn, position_vec){
   

@@ -1,3 +1,4 @@
+source("R/to.PGN.R")
 pieceCount <- function(position_vec){
   
   if(class(position_vec)=="data.frame"){
@@ -21,5 +22,6 @@ pieceCount <- function(position_vec){
 										 piece=piece, 
 										 stringsAsFactors = F)
 	}
+  DF$pgn <- to.PGN(paste0(DF$piece, DF$square))
 	DF
 }

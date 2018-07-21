@@ -1,4 +1,4 @@
-mobility_piece <- function(square, position_vec=NULL, piece=NULL){
+mobility_piece <- function(square, position_vec=NULL, piece=NULL, pgn.output=F){
   
   # test position_vec and piece for null
   TEST <- unlist(lapply(list(position_vec,piece), is.null))
