@@ -1,15 +1,8 @@
 pgnPiece <- function(pgn){
-	test <- function(L){grepl(L,pgn)}
-	P <- c("K","Q","R","N","B")
-	Piece=c("King","Queen","Rook","Knight","Bishop")
-	df <- data.frame(P=P, Piece=Piece,assess=unlist(lapply(P,test)))
-	if(sum(df$assess)==0){
-		return("pawn")
-	}
-	if(sum(df$assess)==1){
-		return(as.character(subset(df$Piece,df$assess==TRUE)))
-	}
-	if(1<sum(df$assess)){
-		stop("Input contains extra piece")
-	}
+  test <- unlist(lapply(chesspatterns, grepl, x = pgn))
+  test <- names(test)[test]
+	test <- test[test %in% c("queen","king", "knight", "rook", "bishop", "pawn")]
+	if(length(test)>1){stop("pgn tests positive for multiple pieces")}
+	if(length(test)<1){stop("pgn test negative for all pieces")}
+	test
 }

@@ -179,21 +179,28 @@ write.csv(FEN_issue, "data/FEN_test_2.csv", row.names = F)
 ```{r play-game, eval=F}
 invisible(lapply(list.files("R","\\.R$",full.names = T), source))
 positions <- setup()
-pgn <- "zero"
-while(!grepl("stop|#", png)){
+pgn <- "."
+while(!grepl("stop|#", pgn)){
   pgn <- readline("new_pgn: ")
-  positions <- new_position("1.e3", 
-                            position_vec = positions[nrow(positions),])
+  positions <- rbind(positions,
+                     new_position(pgn, 
+                                  position_vec = positions[nrow(positions),]))
   workFrame <- pieceCount(positions[nrow(positions),])
+  color <- ifelse(grepl(chesspatterns$white,pgn), 
+                  "black", 
+                  "white")
+  workFrame <- workFrame[grepl(color, workFrame$piece),]
   workList <- lapply(workFrame$square, mobility_piece, 
                      position_vec = positions[nrow(positions),])
   names(workList) <- paste(workFrame$piece)
   for(n in 1:length(workList)){
     if(length(workList[[n]])==0) next
+    if(0<sum(is.na(workList[[n]]))) next
     workList[[n]] <- paste(names(workList)[n], workList[[n]])
   }
   workList <- unlist(workList)
   workList <- unname(workList)
+  workList <- workList[!is.na(workList)]
   mv_options <- data.frame(option=workList, stringsAsFactors = F)
   for(n in 1:nrow(mv_options)){
     temp_position <- new_position(mv_options[n,"option"],
@@ -203,6 +210,11 @@ while(!grepl("stop|#", png)){
       mv_options[n,names(temp)[m]] <- temp[m]
     }
   }
+  other_col <- ifelse(color=="white","black", "white")
+  ORD <- mv_options[,color] - mv_options[,other_col]
+  mv_options <- mv_options[order(ORD, decreasing = F),]
+  print(mv_options)
+  print(paste("last move:",pgn))
 }
 ```
 

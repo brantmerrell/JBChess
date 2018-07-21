@@ -1,3 +1,5 @@
+# new_pgn <- mv_options[n,"option"]
+# position_vec <- positions
 new_position <- function(new_pgn, position_vec){
   
   if(class(position_vec)=="data.frame"){
