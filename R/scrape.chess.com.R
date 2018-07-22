@@ -48,6 +48,7 @@ if("--args" %in% ARGS){
 	# convert them to numbers
 	ARGS <- as.numeric(ARGS[grepl("^\\d+$",ARGS)])
 
+	options(scipen = 9)
 	filePattern <- paste0(min(ARGS), "-", max(ARGS), ".csv")
 	filename <- paste("data/chess.com IDs", filePattern)
 	Files <- readLines("temp.txt")
@@ -63,7 +64,7 @@ if("--args" %in% ARGS){
 		for(n in ARGS[-1]){
 			DF <- weave.rbind(DF, scrape.chess.com(n))
 			print(n)
-		}; rm(DF, n)
+		}; rm(n)
 		# Test for my username in white
 		TEST <- "thinkboolean"==DF$White
 		# test for my username in black
