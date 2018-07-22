@@ -1,4 +1,4 @@
-
+source(list.files(pattern="[Pp]attern.*\\.R$",full.names=T, recursive=T))
 source(list.files(pattern="scrape\\.live\\.R$",full.names=T, recursive=T))
 source(list.files(pattern="weave\\.rbind\\.R$",full.names=T, recursive=T))
 source(list.files(pattern="regex\\.scrape\\.R$",full.names=T, recursive=T))
@@ -83,8 +83,9 @@ if("--args" %in% ARGS){
 		# write data frame of games
 		write.csv(DF, file = paste("data/chess.com IDs ", min(ARGS) ,"-",  max(ARGS),".csv", sep=""),
 				row.names=F)
+		rm(TEST)
 	}else{
 		print(paste("skipping", filename))
-	}; rm(TEST,filePattern, filename, Files)
+	}; rm(filePattern, filename, Files)
 
 };rm(ARGS)
