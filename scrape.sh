@@ -3,7 +3,7 @@
 aws s3 ls s3://jbchess/data --recursive > temp.txt
 
 # iterate through a range of numbers
-for n in $(seq 1000 1001)
+for n in $(seq 1001 1002)
 do
 
   # adjust both numbers to the proper order of magnitude
