@@ -1,6 +1,7 @@
+# Link <- "https://www.chess.com/games/view/1002487"; type="open"
 regex.scrape <- function(Link, type, errorMessage="unfound"){
 		Html <- tryCatch(readLines(Link, warn = F),error=function(e){return(errorMessage)})
-		
+		if(!exists("Html")) return(data.frame(White="", Black="", stringsAsFactors = F))
 		STR <- Html[grepl("vs",Html)]
 		STR <- unlist(strsplit(STR, "\""))
 		STR <- STR[grepl("vs",STR)]
